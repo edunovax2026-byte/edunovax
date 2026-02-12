@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Dashboard</title>
+<link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+<div class="dashboard">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2 class="logo">EduPanel</h2>
+    <ul>
+      <li class="nav-item active" data-section="home">Dashboard</li>
+      <li class="nav-item" data-section="profile">Profile</li>
+      <li class="nav-item" data-section="settings">Settings</li>
+      <li id="logoutBtn">Logout</li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <div class="topbar">
+      <h1 id="welcomeText">Welcome</h1>
+    </div>
+
+    <div id="contentArea" class="content fade-in"></div>
+
+  </main>
+
+</div>
+
+<script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

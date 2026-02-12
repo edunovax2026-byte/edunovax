@@ -1,0 +1,336 @@
+/* ============================= */
+/* GOOGLE FONT */
+/* ============================= */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap");
+
+/* ============================= */
+/* RESET */
+/* ============================= */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+/* ============================= */
+/* BODY */
+/* ============================= */
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f7fa;
+}
+
+/* ============================= */
+/* CONTAINER */
+/* ============================= */
+.container {
+  width: 420px;
+  padding: 45px;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.08),
+    0 2px 8px rgba(0,0,0,0.04);
+  transition: 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-4px);
+}
+
+/* ============================= */
+/* HEADING */
+/* ============================= */
+.container h2 {
+  text-align: center;
+  margin-bottom: 35px;
+  font-size: 26px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* ============================= */
+/* INPUT */
+/* ============================= */
+input,
+select {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  background: #fafafa;
+  font-size: 14px;
+  color: #333;
+  transition: 0.3s ease;
+}
+
+input::placeholder {
+  color: #999;
+}
+
+input:focus,
+select:focus {
+  border-color: #0071e3;
+  background: #ffffff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.15);
+}
+
+/* ============================= */
+/* BUTTON */
+/* ============================= */
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background: #0071e3;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background: #005bb5;
+}
+
+/* ============================= */
+/* LINKS */
+/* ============================= */
+a {
+  color: #0071e3;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
+@media (max-width: 480px) {
+  .container {
+    width: 92%;
+    padding: 35px;
+  }
+}
+
+
+/* ============================= */
+/* ============================= */
+/* HOME PAGE DESIGN (PREMIUM THEME) */
+/* ============================= */
+
+body.home-page {
+  overflow: hidden;
+  background: linear-gradient(135deg, #0a0f1c, #11182b);
+  display: block;
+}
+
+/* ============================= */
+/* Soft Animated Background Glow */
+/* ============================= */
+
+.animated-bg {
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(circle at 25% 30%, rgba(0,234,255,0.15), transparent 40%),
+    radial-gradient(circle at 75% 70%, rgba(255,209,102,0.15), transparent 40%);
+  animation: moveBackground 18s infinite alternate ease-in-out;
+  z-index: -2;
+}
+
+@keyframes moveBackground {
+  0% { transform: translate(-5%, -5%) scale(1); }
+  100% { transform: translate(-10%, -10%) scale(1.1); }
+}
+
+/* ============================= */
+/* NAVBAR */
+/* ============================= */
+
+.navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  padding: 18px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: 700;
+  color: #00eaff;
+  text-shadow: 0 0 15px rgba(0,234,255,0.6);
+}
+
+.nav-links {
+  display: flex;
+  gap: 35px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: #ffffff;
+  font-size: 15px;
+  transition: 0.3s ease;
+  opacity: 0.85;
+}
+
+.nav-links a:hover {
+  color: #00eaff;
+  opacity: 1;
+  text-shadow: 0 0 10px rgba(0,234,255,0.7);
+}
+
+.nav-buttons a {
+  margin-left: 15px;
+  padding: 8px 20px;
+  border-radius: 25px;
+  font-size: 14px;
+}
+
+.nav-login {
+  border: 1px solid #00eaff;
+  color: #00eaff;
+}
+
+.nav-login:hover {
+  background: #00eaff;
+  color: #0a0f1c;
+}
+
+.nav-register {
+  background: #ffd166;
+  color: #0a0f1c;
+}
+
+.nav-register:hover {
+  opacity: 0.85;
+}
+
+/* ============================= */
+/* HERO SECTION */
+/* ============================= */
+
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  padding-top: 80px;
+}
+
+/* Website Name – Clear & Premium */
+
+.main-title {
+  font-size: 75px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #ffffff;
+  text-shadow:
+    0 0 10px rgba(0,234,255,0.8),
+    0 0 25px rgba(0,234,255,0.5);
+  margin-bottom: 20px;
+}
+
+/* Tagline */
+
+.tagline {
+  font-size: 22px;
+  color: #ffd166;
+  opacity: 0.95;
+  margin-bottom: 45px;
+}
+
+/* ============================= */
+/* BUTTONS */
+/* ============================= */
+
+.home-buttons {
+  display: flex;
+  gap: 25px;
+}
+
+/* Primary Button */
+
+.glow-btn {
+  padding: 14px 35px;
+  border-radius: 40px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  background: #00eaff;
+  color: #0a0f1c;
+  font-weight: bold;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 25px rgba(0,234,255,0.7);
+}
+
+.glow-btn:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 50px rgba(0,234,255,1);
+}
+
+/* Secondary Button */
+
+.outline-btn {
+  padding: 14px 35px;
+  border-radius: 40px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 2px solid #ffd166;
+  background: transparent;
+  color: #ffd166;
+  transition: all 0.4s ease;
+}
+
+.outline-btn:hover {
+  background: #ffd166;
+  color: #0a0f1c;
+  transform: scale(1.08);
+}
+
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
+
+@media(max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .main-title {
+    font-size: 42px;
+  }
+
+  .home-buttons {
+    flex-direction: column;
+  }
+}
+

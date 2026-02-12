@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy | EduNovaX</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--primary:#0f172a;
+--accent:#2563eb;
+--bg:#f8fafc;
+--card:#ffffff;
+--text:#1e293b;
+}
+
+body.dark{
+--bg:#0f172a;
+--card:#1e293b;
+--text:#e2e8f0;
+}
+
+body{
+margin:0;
+font-family:'Inter',sans-serif;
+background:var(--bg);
+color:var(--text);
+transition:.3s;
+}
+
+/* Progress Bar */
+.progress-bar{
+position:fixed;
+top:0;
+left:0;
+height:4px;
+background:var(--accent);
+width:0%;
+z-index:9999;
+}
+
+/* Header */
+header{
+position:relative;
+padding:40px 20px;
+text-align:center;
+background:var(--card);
+box-shadow:0 4px 20px rgba(0,0,0,0.05);
+}
+
+h1{
+font-size:42px;
+margin-bottom:10px;
+}
+
+/* Theme Icon */
+.theme-toggle{
+position:absolute;
+top:20px;
+right:20px;
+background:none;
+border:none;
+font-size:22px;
+cursor:pointer;
+color:var(--text);
+transition:0.3s;
+}
+.theme-toggle:hover{
+transform:scale(1.2);
+}
+
+/* Layout */
+.container{
+max-width:1100px;
+margin:auto;
+padding:40px 20px;
+display:flex;
+gap:30px;
+}
+
+nav{
+flex:1;
+position:sticky;
+top:80px;
+height:max-content;
+background:var(--card);
+padding:20px;
+border-radius:12px;
+box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+nav a{
+display:block;
+margin-bottom:10px;
+text-decoration:none;
+color:var(--text);
+font-size:14px;
+transition:.2s;
+}
+nav a:hover{
+color:var(--accent);
+}
+
+.content{
+flex:3;
+}
+
+.section{
+background:var(--card);
+padding:30px;
+border-radius:12px;
+margin-bottom:25px;
+box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+h2{
+color:var(--accent);
+margin-bottom:15px;
+}
+
+/* Footer */
+.footer{
+text-align:center;
+padding:30px;
+font-size:14px;
+opacity:.7;
+}
+
+/* Cookie Banner */
+.cookie-banner{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#111;
+color:white;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+z-index:9999;
+}
+
+.cookie-banner button{
+background:var(--accent);
+border:none;
+padding:8px 14px;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
+/* Responsive */
+@media(max-width:900px){
+.container{
+flex-direction:column;
+}
+nav{
+position:relative;
+top:0;
+}
+}
+</style>
+
+<style>
+.ultra-footer{
+background:linear-gradient(135deg,#0f172a,#1e293b);
+color:#e2e8f0;
+padding:60px 20px 20px;
+margin-top:80px;
+position:relative;
+overflow:hidden;
+}
+
+.footer-top{
+max-width:1300px;
+margin:auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:40px;
+}
+
+.footer-brand h2{
+font-size:26px;
+margin-bottom:10px;
+}
+
+.footer-links h4,
+.footer-newsletter h4{
+margin-bottom:15px;
+font-weight:600;
+}
+
+.footer-links a{
+display:block;
+color:#cbd5e1;
+text-decoration:none;
+margin-bottom:8px;
+position:relative;
+transition:0.3s;
+}
+
+.footer-links a::after{
+content:'';
+position:absolute;
+left:0;
+bottom:-3px;
+width:0%;
+height:2px;
+background:#2563eb;
+transition:0.3s;
+}
+
+.footer-links a:hover{
+color:#ffffff;
+}
+
+.footer-links a:hover::after{
+width:100%;
+}
+
+.social-icons a{
+display:inline-block;
+margin-right:10px;
+color:#cbd5e1;
+font-size:18px;
+transition:0.3s;
+}
+
+.social-icons a:hover{
+color:#2563eb;
+transform:translateY(-3px);
+}
+
+.footer-newsletter form{
+display:flex;
+margin-top:10px;
+}
+
+.footer-newsletter input{
+flex:1;
+padding:10px;
+border:none;
+border-radius:6px 0 0 6px;
+outline:none;
+}
+
+.footer-newsletter button{
+padding:10px 15px;
+border:none;
+background:#2563eb;
+color:white;
+border-radius:0 6px 6px 0;
+cursor:pointer;
+transition:0.3s;
+}
+
+.footer-newsletter button:hover{
+background:#1d4ed8;
+}
+
+.footer-bottom{
+margin-top:40px;
+padding-top:20px;
+border-top:1px solid rgba(255,255,255,0.1);
+text-align:center;
+position:relative;
+}
+
+.top-btn{
+position:absolute;
+right:20px;
+bottom:10px;
+background:#2563eb;
+border:none;
+color:white;
+padding:8px 12px;
+border-radius:50%;
+cursor:pointer;
+transition:0.3s;
+}
+
+.top-btn:hover{
+background:#1d4ed8;
+transform:scale(1.1);
+}
+
+@media(max-width:768px){
+.footer-top{
+grid-template-columns:1fr;
+}
+.top-btn{
+position:static;
+margin-top:15px;
+}
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<header>
+<h1>Privacy Policy</h1>
+<p>EduNovaX – Global Educational Platform</p>
+<button class="theme-toggle" onclick="toggleMode()" id="themeIcon">🌙</button>
+</header>
+
+<div class="container">
+
+<nav>
+<strong>Contents</strong>
+<a href="#intro">1. Introduction</a>
+<a href="#collection">2. Data Collection</a>
+<a href="#use">3. Use of Data</a>
+<a href="#legal">4. Legal Basis</a>
+<a href="#sharing">5. Data Sharing</a>
+<a href="#transfer">6. International Transfers</a>
+<a href="#retention">7. Data Retention</a>
+<a href="#security">8. Security Measures</a>
+<a href="#rights">9. User Rights</a>
+<a href="#children">10. Children’s Privacy</a>
+<a href="#cookies">11. Cookies</a>
+<a href="#liability">12. Limitation of Liability</a>
+<a href="#law">13. Governing Law</a>
+<a href="#contact">14. Contact Information</a>
+</nav>
+
+<div class="content">
+
+<div class="section" id="intro">
+<h2>1. Introduction</h2>
+<p>EduNovaX ("Company", "we", "our") respects your privacy and is committed to protecting your personal data in compliance with GDPR, CCPA, and global regulations.</p>
+</div>
+
+<div class="section" id="collection">
+<h2>2. Data Collection</h2>
+<p>We collect authentication data via Firebase, device metadata, usage analytics, and uploaded educational content.</p>
+</div>
+
+<div class="section" id="use">
+<h2>3. Use of Data</h2>
+<p>Data is processed to provide educational services, improve performance, and ensure security.</p>
+</div>
+
+<div class="section" id="legal">
+<h2>4. Legal Basis</h2>
+<ul>
+<li>User Consent</li>
+<li>Contractual Necessity</li>
+<li>Legitimate Interest</li>
+<li>Legal Compliance</li>
+</ul>
+</div>
+
+<div class="section" id="sharing">
+<h2>5. Data Sharing</h2>
+<p>We may share limited data with Firebase (Google Cloud) and lawful authorities when required.</p>
+</div>
+
+<div class="section" id="transfer">
+<h2>6. International Transfers</h2>
+<p>Data may be processed internationally under secure contractual safeguards.</p>
+</div>
+
+<div class="section" id="retention">
+<h2>7. Data Retention</h2>
+<p>Data is retained only as necessary for service delivery and legal compliance.</p>
+</div>
+
+<div class="section" id="security">
+<h2>8. Security Measures</h2>
+<p>We use encryption, secure cloud infrastructure, and authentication control mechanisms.</p>
+</div>
+
+<div class="section" id="rights">
+<h2>9. User Rights</h2>
+<p>You may access, correct, delete, or request portability of your data.</p>
+</div>
+
+<div class="section" id="children">
+<h2>10. Children’s Privacy</h2>
+<p>We do not knowingly collect data from children under 13 without parental consent.</p>
+</div>
+
+<div class="section" id="cookies">
+<h2>11. Cookies</h2>
+<p>Cookies are used for authentication and analytics enhancement.</p>
+</div>
+
+<div class="section" id="liability">
+<h2>12. Limitation of Liability</h2>
+<p>EduNovaX shall not be liable for indirect or consequential damages arising from platform use.</p>
+</div>
+
+<div class="section" id="law">
+<h2>13. Governing Law</h2>
+<p>This policy is governed by applicable international data protection laws.</p>
+</div>
+
+<div class="section" id="contact">
+<h2>14. Contact Information</h2>
+<p>Email: compliance@edunovax.com</p>
+</div>
+
+</div>
+</div>
+
+
+<div class="cookie-banner" id="cookieBanner">
+<span>We use cookies to improve your experience.</span>
+<button onclick="acceptCookies()">Accept</button>
+</div>
+
+<script>
+// Scroll Progress
+window.onscroll = function() {
+let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+let scrolled = (winScroll / height) * 100;
+document.getElementById("progressBar").style.width = scrolled + "%";
+};
+
+// Load saved theme
+if(localStorage.getItem("theme") === "dark"){
+document.body.classList.add("dark");
+document.getElementById("themeIcon").textContent = "☀️";
+}
+
+// Toggle
+function toggleMode(){
+document.body.classList.toggle("dark");
+
+if(document.body.classList.contains("dark")){
+localStorage.setItem("theme","dark");
+document.getElementById("themeIcon").textContent = "☀️";
+}else{
+localStorage.setItem("theme","light");
+document.getElementById("themeIcon").textContent = "🌙";
+}
+}
+
+// Cookie Save
+function acceptCookies(){
+document.getElementById("cookieBanner").style.display="none";
+localStorage.setItem("cookiesAccepted", "true");
+}
+
+if(localStorage.getItem("cookiesAccepted")){
+document.getElementById("cookieBanner").style.display="none";
+}
+</script>
+
+<footer class="ultra-footer">
+
+<div class="footer-top">
+
+<div class="footer-brand">
+<h2>EduNovaX</h2>
+<p>Empowering Global Education Through Secure, Scalable & Modern Learning Technology.</p>
+
+<div class="social-icons">
+<a href="#"><i class="fab fa-facebook-f"></i></a>
+<a href="#"><i class="fab fa-twitter"></i></a>
+<a href="#"><i class="fab fa-linkedin-in"></i></a>
+<a href="#"><i class="fab fa-github"></i></a>
+</div>
+</div>
+
+<div class="footer-links">
+<h4>Platform</h4>
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<a href="dashboard.html">Dashboard</a>
+</div>
+
+<div class="footer-links">
+<h4>Legal</h4>
+<a href="privacy.html">Privacy Policy</a>
+<a href="terms.html">Terms & Conditions</a>
+<a href="cookie.html">Cookie Policy</a>
+<a href="disclaimer.html">Disclaimer</a>
+<a href="refund.html">Refund Policy</a>
+</div>
+
+<div class="footer-newsletter">
+<h4>Subscribe</h4>
+<p>Get updates & educational insights.</p>
+<form onsubmit="subscribe(event)">
+<input type="email" placeholder="Enter your email" required>
+<button type="submit">Subscribe</button>
+</form>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+<p>© <span id="year"></span> EduNovaX. All Rights Reserved.</p>
+<button onclick="scrollToTop()" class="top-btn">↑</button>
+</div>
+
+</footer>
+
+<!-- Font Awesome -->
+<script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
+
+<script>
+
+// Wait until page fully loads
+document.addEventListener("DOMContentLoaded", function() {
+
+    // Dynamic Year
+    const yearElement = document.getElementById("year");
+    if(yearElement){
+        yearElement.textContent = new Date().getFullYear();
+    }
+
+    // Scroll To Top
+    window.scrollToTop = function(){
+        window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    // Newsletter Subscribe
+    const form = document.getElementById("subscribeForm");
+    const emailInput = document.getElementById("emailInput");
+
+    if(form){
+        form.addEventListener("submit", function(e){
+            e.preventDefault();
+
+            const email = emailInput.value.trim();
+
+            if(email !== ""){
+                alert("Thank you for subscribing to EduNovaX!");
+                emailInput.value = "";
+            }
+        });
+    }
+
+});
+</script>
+
+
+</body>
+</html>

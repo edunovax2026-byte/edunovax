@@ -1,0 +1,81 @@
+body {
+  background: linear-gradient(135deg,#1e3c72,#2a5298);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  font-family:'Segoe UI',sans-serif;
+}
+
+.profile-card{
+  width:420px;
+  background:#ffffff;
+  padding:30px;
+  border-radius:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+.profile-card h2{
+  text-align:center;
+  margin-bottom:20px;
+  color:#2a5298;
+}
+
+.profile-field{
+  margin-bottom:15px;
+}
+
+.profile-field label{
+  font-size:13px;
+  font-weight:600;
+  display:block;
+  margin-bottom:5px;
+}
+
+.profile-field input{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  background:#f9f9f9;
+}
+
+.profile-field input:disabled{
+  background:#eeeeee;
+}
+
+.btn-group{
+  margin-top:20px;
+  display:flex;
+  gap:10px;
+}
+
+button{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+#editBtn{
+  background:#2a5298;
+  color:white;
+}
+
+#saveBtn{
+  background:#28a745;
+  color:white;
+}
+
+#cancelBtn{
+  background:#dc3545;
+  color:white;
+}
+
+#message{
+  text-align:center;
+  margin-top:15px;
+  font-weight:bold;
+}

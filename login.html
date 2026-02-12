@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+<h2>Login</h2>
+
+<form id="loginForm">
+
+<div class="form-group">
+<input type="email" id="loginEmail" placeholder="Email Address" required>
+</div>
+
+<div class="form-group" style="position: relative;">
+<input type="password" id="loginPassword" placeholder="Password" required>
+<span class="toggle-password" onclick="togglePassword('loginPassword')" 
+style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer;">
+👁
+</span>
+</div>
+
+
+<button type="submit">Login</button>
+
+<p>No account? <a href="register.html">Register</a></p>
+
+</form>
+<p style="margin-top:10px;">
+  <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+</p>
+
+</div>
+
+<script>
+function togglePassword(id) {
+  const input = document.getElementById(id);
+  input.type = input.type === "password" ? "text" : "password";
+}
+</script>
+
+<script type="module" src="js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title> Welcome to EduNovaX </title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="home-page">
+
+<!-- Background -->
+<div class="animated-bg"></div>
+<div class="particles"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">EduNovaX</div>
+
+    <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="scholarships.html">Scholarships</a></li>
+        <li><a href="terms.html">Terms & Conditions</a></li>
+        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+
+    <div class="nav-buttons">
+        <a href="login.html" class="nav-login">Login</a>
+        <a href="register.html" class="nav-register">Register</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <h1 class="main-title">
+        <span class="typing"></span>
+    </h1>
+
+    <p class="tagline">
+        The Future of Smart Learning Starts Here
+    </p>
+
+    <div class="home-buttons">
+        <a href="register.html">
+            <button class="glow-btn">Get Started</button>
+        </a>
+        <a href="login.html">
+            <button class="outline-btn">Login</button>
+        </a>
+    </div>
+
+    <div class="scroll-indicator"></div>
+</section>
+
+<script>
+/* Typing Effect */
+const text = "Welcome to EduNovaX Portal";
+let i = 0;
+function typing(){
+    if(i < text.length){
+        document.querySelector(".typing").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typing, 100);
+    }
+}
+typing();
+</script>
+
+</body>
+</html>

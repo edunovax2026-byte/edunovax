@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Register</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+<h2>Create Account</h2>
+
+<form id="registerForm">
+
+<div class="form-group">
+<input type="text" id="name" placeholder="Full Name" required>
+</div>
+
+<div class="form-group">
+<input type="date" id="dob" required>
+</div>
+
+<div class="form-group">
+<input type="number" id="age" placeholder="Age" readonly>
+</div>
+
+<div class="form-group">
+<select id="state" required>
+<option value="">Select State</option>
+</select>
+</div>
+
+<div class="form-group">
+<select id="district" required>
+<option value="">Select District</option>
+</select>
+</div>
+
+<div class="form-group">
+<input type="text" id="police" placeholder="Police Station" required>
+</div>
+
+<div class="form-group">
+<input type="number" id="pincode" placeholder="Pin Code" required>
+</div>
+
+<div class="form-group">
+<input type="text" id="postoffice" placeholder="Post Office" required>
+</div>
+
+<div class="form-group">
+<input type="tel" id="phone" placeholder="Phone Number" required>
+</div>
+
+<div class="form-group">
+<input type="email" id="email" placeholder="Email Address" required>
+</div>
+
+<div class="form-group" style="position: relative;">
+<input type="password" id="password" placeholder="Password" required>
+<span class="toggle-password" onclick="togglePassword('password')" 
+style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer;">
+👁
+</span>
+</div>
+
+
+<div class="form-group" style="position: relative;">
+<input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+<span class="toggle-password" onclick="togglePassword('confirmPassword')" 
+style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer;">
+👁
+</span>
+</div>
+
+
+<button type="submit">Register</button>
+
+<p>Already have an account? <a href="login.html">Login</a></p>
+
+</form>
+</div>
+
+<script>
+function togglePassword(id) {
+  const input = document.getElementById(id);
+  input.type = input.type === "password" ? "text" : "password";
+}
+</script>
+
+<script type="module" src="js/register.js"></script>
+</body>
+</html>

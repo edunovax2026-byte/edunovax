@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | EduNovaX</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* ===== ROOT ===== */
+:root{
+--primary:#2563eb;
+--secondary:#06b6d4;
+--dark-bg:#0b1120;
+--light-bg:#f8fafc;
+--text-dark:#f9fafb;
+--text-light:#0f172a;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+body{
+transition:.4s ease;
+overflow-x:hidden;
+}
+
+body.dark{
+background:radial-gradient(circle at top left,#1e293b,#0b1120);
+color:var(--text-dark);
+}
+
+body.light{
+background:linear-gradient(135deg,#f8fafc,#e2e8f0);
+color:var(--text-light);
+}
+
+/* ===== Floating Blobs ===== */
+.blob{
+position:fixed;
+width:400px;
+height:400px;
+border-radius:50%;
+background:radial-gradient(circle,var(--primary),transparent);
+filter:blur(150px);
+opacity:.4;
+animation:float 10s infinite alternate ease-in-out;
+z-index:-1;
+}
+
+.blob2{
+top:60%;
+left:70%;
+animation-delay:3s;
+background:radial-gradient(circle,var(--secondary),transparent);
+}
+
+@keyframes float{
+from{transform:translateY(-50px);}
+to{transform:translateY(50px);}
+}
+
+/* ===== NAV ===== */
+nav{
+position:fixed;
+top:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 60px;
+backdrop-filter:blur(15px);
+background:rgba(255,255,255,0.05);
+z-index:1000;
+}
+
+nav a{
+text-decoration:none;
+color:inherit;
+font-weight:600;
+font-size:15px;
+padding:8px 18px;
+border-radius:25px;
+transition:.3s;
+}
+
+nav a:hover{
+background:var(--primary);
+color:white;
+}
+
+.toggle{
+cursor:pointer;
+font-size:20px;
+}
+
+/* ===== SECTION ===== */
+.section{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:120px 20px;
+}
+
+.container{
+display:flex;
+max-width:1200px;
+width:100%;
+gap:60px;
+align-items:center;
+}
+
+/* ===== LEFT INFO ===== */
+.info{
+flex:1;
+animation:fadeLeft 1s ease forwards;
+}
+
+.info h1{
+font-size:48px;
+margin-bottom:20px;
+background:linear-gradient(45deg,var(--primary),var(--secondary));
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.info p{
+opacity:.8;
+margin-bottom:30px;
+}
+
+.detail{
+padding:15px;
+border-radius:15px;
+background:rgba(255,255,255,0.05);
+margin-bottom:15px;
+transition:.3s;
+}
+
+.detail:hover{
+transform:translateX(10px);
+background:rgba(37,99,235,0.2);
+}
+
+/* ===== FORM CARD ===== */
+.form-card{
+flex:1;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(20px);
+padding:40px;
+border-radius:25px;
+box-shadow:0 25px 50px rgba(0,0,0,0.3);
+transition:.3s;
+animation:fadeRight 1s ease forwards;
+}
+
+body.light .form-card{
+background:rgba(255,255,255,0.9);
+box-shadow:0 20px 40px rgba(0,0,0,0.1);
+}
+
+/* ===== INPUT ===== */
+.input-group{
+margin-bottom:25px;
+}
+
+input, textarea{
+width:100%;
+padding:15px;
+border-radius:12px;
+border:1px solid rgba(255,255,255,0.1);
+background:transparent;
+color:inherit;
+font-size:14px;
+outline:none;
+transition:.3s;
+}
+
+body.light input,
+body.light textarea{
+border:1px solid #ddd;
+}
+
+input:focus, textarea:focus{
+border-color:var(--primary);
+box-shadow:0 0 0 3px rgba(37,99,235,0.2);
+}
+
+.valid{
+border-color:limegreen !important;
+}
+
+.invalid{
+border-color:red !important;
+}
+
+/* ===== BUTTON ===== */
+button{
+width:100%;
+padding:15px;
+border:none;
+border-radius:30px;
+font-weight:600;
+font-size:15px;
+cursor:pointer;
+background:linear-gradient(45deg,var(--primary),var(--secondary));
+color:white;
+transition:.4s;
+}
+
+button:hover{
+transform:translateY(-3px);
+box-shadow:0 15px 35px rgba(37,99,235,0.4);
+}
+
+.spinner{
+border:3px solid rgba(255,255,255,0.3);
+border-top:3px solid white;
+border-radius:50%;
+width:18px;
+height:18px;
+animation:spin 1s linear infinite;
+display:inline-block;
+}
+
+@keyframes spin{
+to{transform:rotate(360deg);}
+}
+
+/* ===== MODAL ===== */
+.modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:flex;
+justify-content:center;
+align-items:center;
+visibility:hidden;
+opacity:0;
+transition:.3s;
+}
+
+.modal.active{
+visibility:visible;
+opacity:1;
+}
+
+.modal-content{
+background:white;
+padding:40px;
+border-radius:20px;
+text-align:center;
+max-width:400px;
+}
+
+.modal-content h2{
+color:var(--primary);
+margin-bottom:15px;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeLeft{
+from{opacity:0; transform:translateX(-50px);}
+to{opacity:1; transform:translateX(0);}
+}
+
+@keyframes fadeRight{
+from{opacity:0; transform:translateX(50px);}
+to{opacity:1; transform:translateX(0);}
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+.container{
+flex-direction:column;
+}
+nav{
+padding:15px 20px;
+}
+}
+
+</style>
+
+
+</head>
+
+<body class="dark">
+
+<div class="blob"></div>
+<div class="blob blob2"></div>
+
+<nav>
+<a href="index.html">Home</a>
+<div class="toggle" onclick="toggleMode()" id="modeIcon">🌙</div>
+</nav>
+
+<section class="section">
+<div class="container">
+
+<div class="info">
+<h1>Let's Connect</h1>
+<p>Have questions or ideas? EduNovaX is ready to help you grow.</p>
+
+<div class="detail">📧 support@edunovax.com</div>
+<div class="detail">🌍 India</div>
+<div class="detail">🚀 Empowering Digital Education</div>
+</div>
+
+<div class="form-card">
+<form id="contactForm" action="https://formspree.io/f/mpqjqydw" method="POST">
+
+<div class="input-group">
+<input type="text" name="name" placeholder="Your Name" required>
+</div>
+
+<div class="input-group">
+<input type="email" name="email" placeholder="Your Email" required>
+</div>
+
+<div class="input-group">
+<textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+</div>
+
+<button type="submit">Send Message</button>
+
+</form>
+</div>
+
+</div>
+</section>
+
+<!-- Success Modal -->
+<div class="modal" id="successModal">
+<div class="modal-content">
+<h2>🎉 Message Sent!</h2>
+<p>Thank you for contacting EduNovaX.</p>
+<button onclick="closeModal()">Close</button>
+</div>
+</div>
+
+<script>
+
+/* Dark Light */
+function toggleMode(){
+document.body.classList.toggle("light");
+document.body.classList.toggle("dark");
+
+let icon=document.getElementById("modeIcon");
+icon.innerHTML=document.body.classList.contains("light")?"☀":"🌙";
+localStorage.setItem("mode",document.body.className);
+}
+
+if(localStorage.getItem("mode")){
+document.body.className=localStorage.getItem("mode");
+if(document.body.classList.contains("light")){
+document.getElementById("modeIcon").innerHTML="☀";
+}
+}
+
+/* Live Validation */
+document.querySelectorAll("input, textarea").forEach(input=>{
+input.addEventListener("input",()=>{
+if(input.checkValidity()){
+input.classList.add("valid");
+input.classList.remove("invalid");
+}else{
+input.classList.add("invalid");
+input.classList.remove("valid");
+}
+});
+});
+
+/* Form Submit */
+const form=document.getElementById("contactForm");
+const button=form.querySelector("button");
+
+form.addEventListener("submit",async function(e){
+e.preventDefault();
+
+button.innerHTML='<span class="spinner"></span>';
+button.disabled=true;
+
+const data=new FormData(form);
+const response=await fetch(form.action,{
+method:form.method,
+body:data,
+headers:{'Accept':'application/json'}
+});
+
+button.innerHTML="Send Message";
+button.disabled=false;
+
+if(response.ok){
+form.reset();
+document.getElementById("successModal").classList.add("active");
+}else{
+alert("Something went wrong!");
+}
+});
+
+/* Close Modal */
+function closeModal(){
+document.getElementById("successModal").classList.remove("active");
+}
+
+/* 3D Tilt */
+const card=document.querySelector(".form-card");
+card.addEventListener("mousemove",(e)=>{
+let x=e.offsetX;
+let y=e.offsetY;
+let rotateX=(y/card.offsetHeight-0.5)*10;
+let rotateY=(x/card.offsetWidth-0.5)*-10;
+card.style.transform=`rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+});
+card.addEventListener("mouseleave",()=>{
+card.style.transform="rotateX(0) rotateY(0)";
+});
+
+</script>
+
+</body>
+</html>

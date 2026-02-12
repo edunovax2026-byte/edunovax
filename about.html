@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About | EduNovaX</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+--bg-dark:#0f172a;
+--bg-light:#f8fafc;
+--primary:#00f2fe;
+--secondary:#4facfe;
+--glass-dark:rgba(255,255,255,0.08);
+--glass-light:rgba(255,255,255,0.7);
+--text-dark:white;
+--text-light:#0f172a;
+}
+
+/* Base */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+scroll-behavior:smooth;
+}
+
+body{
+transition:0.4s;
+overflow-x:hidden;
+}
+
+/* Dark Mode */
+body.dark{
+background:#0f172a;
+color:var(--text-dark);
+}
+
+/* Light Mode */
+body.light{
+background:linear-gradient(135deg,#f8fafc,#e2e8f0,#f1f5f9);
+color:var(--text-light);
+}
+
+/* Loader */
+.loader{
+position:fixed;
+width:100%;
+height:100vh;
+background:#000;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.loader span{
+width:20px;
+height:20px;
+margin:5px;
+background:linear-gradient(45deg,var(--primary),var(--secondary));
+border-radius:50%;
+animation:bounce 0.6s infinite alternate;
+}
+
+.loader span:nth-child(2){animation-delay:0.2s;}
+.loader span:nth-child(3){animation-delay:0.4s;}
+
+@keyframes bounce{
+to{transform:translateY(-20px);}
+}
+
+/* Navbar */
+nav{
+position:fixed;
+width:100%;
+padding:20px 8%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(0,0,0,0.4);
+backdrop-filter:blur(15px);
+z-index:1000;
+transition:0.3s;
+}
+
+body.light nav{
+background:rgba(255,255,255,0.8);
+box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+nav h1{
+font-weight:900;
+font-size:26px;
+background:linear-gradient(45deg,var(--primary),var(--secondary));
+-webkit-background-clip:text;
+background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+nav ul{list-style:none;}
+
+nav a{
+text-decoration:none;
+color:inherit;
+padding:8px 20px;
+border-radius:30px;
+border:1px solid var(--secondary);
+transition:0.3s;
+}
+
+nav a:hover{
+background:var(--secondary);
+color:#000;
+}
+
+body.light nav a:hover{
+background:var(--primary);
+color:white;
+}
+
+.toggle{
+cursor:pointer;
+padding:8px 14px;
+border-radius:50%;
+border:1px solid var(--primary);
+margin-left:15px;
+}
+
+/* Hero */
+.hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:0 20px;
+position:relative;
+overflow:hidden;
+}
+
+.hero h2{
+font-size:70px;
+font-weight:900;
+margin-bottom:20px;
+background:linear-gradient(45deg,var(--primary),var(--secondary));
+-webkit-background-clip:text;
+background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.hero p{
+max-width:900px;
+font-size:20px;
+opacity:0.85;
+line-height:1.7;
+}
+
+/* Blobs */
+.blob{
+position:absolute;
+width:400px;
+height:400px;
+filter:blur(120px);
+animation:float 10s infinite alternate;
+}
+
+body.dark .blob{
+background:radial-gradient(circle,var(--primary),transparent);
+}
+
+body.light .blob{
+background:radial-gradient(circle,#60a5fa,transparent);
+}
+
+.blob:nth-child(1){top:-100px;left:-100px;}
+.blob:nth-child(2){bottom:-150px;right:-100px;animation-delay:3s;}
+
+@keyframes float{
+to{transform:translateY(50px);}
+}
+
+/* Section */
+.section{
+padding:120px 8%;
+text-align:center;
+}
+
+.section h3{
+font-size:45px;
+margin-bottom:60px;
+}
+
+/* Cards */
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:40px;
+}
+
+.card{
+padding:40px;
+border-radius:25px;
+backdrop-filter:blur(20px);
+transition:0.4s;
+transform-style:preserve-3d;
+}
+
+body.dark .card{
+background:var(--glass-dark);
+}
+
+body.light .card{
+background:var(--glass-light);
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.card:hover{
+transform:rotateY(10deg) scale(1.05);
+box-shadow:0 25px 50px rgba(0,0,0,0.3);
+}
+
+body.light .card:hover{
+box-shadow:0 20px 40px rgba(0,0,0,0.15);
+}
+
+.card h4{
+margin-bottom:15px;
+font-size:24px;
+color:var(--primary);
+}
+
+.card p{
+opacity:0.8;
+}
+
+/* Stats */
+.stats{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:80px;
+}
+
+.stat{
+font-size:60px;
+font-weight:900;
+}
+
+body.dark .stat{
+background:linear-gradient(45deg,var(--primary),var(--secondary));
+-webkit-background-clip:text;
+background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+body.light .stat{
+background:linear-gradient(45deg,#2563eb,#06b6d4);
+-webkit-background-clip:text;
+background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.stat span{
+display:block;
+font-size:18px;
+margin-top:10px;
+}
+
+/* Footer */
+footer{
+padding:50px;
+text-align:center;
+opacity:0.6;
+}
+
+/* Scroll Reveal */
+.reveal{
+opacity:0;
+transform:translateY(60px);
+transition:1s;
+}
+
+.reveal.active{
+opacity:1;
+transform:translateY(0);
+}
+
+@media(max-width:768px){
+.hero h2{font-size:40px;}
+.section h3{font-size:30px;}
+}
+
+</style>
+
+<style>
+.ultra-footer{
+background:linear-gradient(135deg,#0f172a,#1e293b);
+color:#e2e8f0;
+padding:60px 20px 20px;
+margin-top:80px;
+position:relative;
+overflow:hidden;
+}
+
+.footer-top{
+max-width:1300px;
+margin:auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:40px;
+}
+
+.footer-brand h2{
+font-size:26px;
+margin-bottom:10px;
+}
+
+.footer-links h4,
+.footer-newsletter h4{
+margin-bottom:15px;
+font-weight:600;
+}
+
+.footer-links a{
+display:block;
+color:#cbd5e1;
+text-decoration:none;
+margin-bottom:8px;
+position:relative;
+transition:0.3s;
+}
+
+.footer-links a::after{
+content:'';
+position:absolute;
+left:0;
+bottom:-3px;
+width:0%;
+height:2px;
+background:#2563eb;
+transition:0.3s;
+}
+
+.footer-links a:hover{
+color:#ffffff;
+}
+
+.footer-links a:hover::after{
+width:100%;
+}
+
+.social-icons a{
+display:inline-block;
+margin-right:10px;
+color:#cbd5e1;
+font-size:18px;
+transition:0.3s;
+}
+
+.social-icons a:hover{
+color:#2563eb;
+transform:translateY(-3px);
+}
+
+.footer-newsletter form{
+display:flex;
+margin-top:10px;
+}
+
+.footer-newsletter input{
+flex:1;
+padding:10px;
+border:none;
+border-radius:6px 0 0 6px;
+outline:none;
+}
+
+.footer-newsletter button{
+padding:10px 15px;
+border:none;
+background:#2563eb;
+color:white;
+border-radius:0 6px 6px 0;
+cursor:pointer;
+transition:0.3s;
+}
+
+.footer-newsletter button:hover{
+background:#1d4ed8;
+}
+
+.footer-bottom{
+margin-top:40px;
+padding-top:20px;
+border-top:1px solid rgba(255,255,255,0.1);
+text-align:center;
+position:relative;
+}
+
+.top-btn{
+position:absolute;
+right:20px;
+bottom:10px;
+background:#2563eb;
+border:none;
+color:white;
+padding:8px 12px;
+border-radius:50%;
+cursor:pointer;
+transition:0.3s;
+}
+
+.top-btn:hover{
+background:#1d4ed8;
+transform:scale(1.1);
+}
+
+@media(max-width:768px){
+.footer-top{
+grid-template-columns:1fr;
+}
+.top-btn{
+position:static;
+margin-top:15px;
+}
+}
+</style>
+
+</head>
+
+<body class="dark">
+
+<div class="loader" id="loader">
+<span></span><span></span><span></span>
+</div>
+
+<nav>
+<h1>EduNovaX</h1>
+<ul>
+<li><a href="index.html">Home</a></li>
+</ul>
+<div class="toggle" onclick="toggleMode()" id="modeIcon">🌙</div>
+</nav>
+
+<section class="hero">
+<div class="blob"></div>
+<div class="blob"></div>
+<h2>About EduNovaX</h2>
+<p>
+EduNovaX is an advanced digital learning ecosystem designed to redefine the future of education.
+We combine innovation, technology, and structured academic resources to create a seamless,
+modern, and powerful learning experience for students worldwide.
+</p>
+</section>
+
+<section class="section reveal">
+<h3>Our Core Philosophy</h3>
+<div class="cards">
+<div class="card">
+<h4>Innovation</h4>
+<p>We integrate modern technology with education to build intelligent learning systems.</p>
+</div>
+<div class="card">
+<h4>Excellence</h4>
+<p>Delivering top-tier structured academic content with clarity and precision.</p>
+</div>
+<div class="card">
+<h4>Accessibility</h4>
+<p>Education without limits — accessible anytime, anywhere.</p>
+</div>
+</div>
+</section>
+
+<section class="section reveal">
+<h3>EduNovaX Impact</h3>
+<div class="stats">
+<div>
+<div class="stat" id="s1">0</div>
+<span>Students</span>
+</div>
+<div>
+<div class="stat" id="s2">0</div>
+<span>Resources</span>
+</div>
+<div>
+<div class="stat" id="s3">0</div>
+<span>Subjects</span>
+</div>
+</div>
+</section>
+
+
+<script>
+
+/* Loader */
+window.addEventListener("load",()=>{
+document.getElementById("loader").style.display="none";
+});
+
+/* Counter */
+function counter(id,target){
+let count=0;
+let speed=target/150;
+let update=setInterval(()=>{
+count+=speed;
+if(count>=target){
+count=target;
+clearInterval(update);
+}
+document.getElementById(id).innerText=Math.floor(count)+"+";
+},20);
+}
+
+counter("s1",2000);
+counter("s2",500);
+counter("s3",80);
+
+/* Toggle Mode */
+function toggleMode(){
+document.body.classList.toggle("light");
+document.body.classList.toggle("dark");
+
+let icon=document.getElementById("modeIcon");
+
+if(document.body.classList.contains("light")){
+icon.innerHTML="☀";
+}else{
+icon.innerHTML="🌙";
+}
+
+localStorage.setItem("mode",document.body.className);
+}
+
+if(localStorage.getItem("mode")){
+document.body.className=localStorage.getItem("mode");
+if(document.body.classList.contains("light")){
+document.getElementById("modeIcon").innerHTML="☀";
+}else{
+document.getElementById("modeIcon").innerHTML="🌙";
+}
+}
+
+/* Scroll Reveal */
+function reveal(){
+document.querySelectorAll(".reveal").forEach(el=>{
+let windowHeight=window.innerHeight;
+let elementTop=el.getBoundingClientRect().top;
+if(elementTop<windowHeight-100){
+el.classList.add("active");
+}
+});
+}
+window.addEventListener("scroll",reveal);
+
+</script>
+
+<footer class="ultra-footer">
+
+<div class="footer-top">
+
+<div class="footer-brand">
+<h2>EduNovaX</h2>
+<p>Empowering Global Education Through Secure, Scalable & Modern Learning Technology.</p>
+
+<div class="social-icons">
+<a href="#"><i class="fab fa-facebook-f"></i></a>
+<a href="#"><i class="fab fa-twitter"></i></a>
+<a href="#"><i class="fab fa-linkedin-in"></i></a>
+<a href="#"><i class="fab fa-github"></i></a>
+</div>
+</div>
+
+<div class="footer-links">
+<h4>Platform</h4>
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<a href="dashboard.html">Dashboard</a>
+</div>
+
+<div class="footer-links">
+<h4>Legal</h4>
+<a href="privacy.html">Privacy Policy</a>
+<a href="terms.html">Terms & Conditions</a>
+<a href="cookie.html">Cookie Policy</a>
+<a href="disclaimer.html">Disclaimer</a>
+<a href="refund.html">Refund Policy</a>
+</div>
+
+<div class="footer-newsletter">
+<h4>Subscribe</h4>
+<p>Get updates & educational insights.</p>
+<form onsubmit="subscribe(event)">
+<input type="email" placeholder="Enter your email" required>
+<button type="submit">Subscribe</button>
+</form>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+<p>© <span id="year"></span> EduNovaX. All Rights Reserved.</p>
+<button onclick="scrollToTop()" class="top-btn">↑</button>
+</div>
+
+</footer>
+
+<!-- Font Awesome -->
+<script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
+
+<script>
+
+// Wait until page fully loads
+document.addEventListener("DOMContentLoaded", function() {
+
+    // Dynamic Year
+    const yearElement = document.getElementById("year");
+    if(yearElement){
+        yearElement.textContent = new Date().getFullYear();
+    }
+
+    // Scroll To Top
+    window.scrollToTop = function(){
+        window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    // Newsletter Subscribe
+    const form = document.getElementById("subscribeForm");
+    const emailInput = document.getElementById("emailInput");
+
+    if(form){
+        form.addEventListener("submit", function(e){
+            e.preventDefault();
+
+            const email = emailInput.value.trim();
+
+            if(email !== ""){
+                alert("Thank you for subscribing to EduNovaX!");
+                emailInput.value = "";
+            }
+        });
+    }
+
+});
+</script>
+
+</body>
+</html>
