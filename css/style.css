@@ -1,18 +1,253 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap");
+/* ================= GOOGLE FONT ================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins', sans-serif;
 }
 
-body {
-  font-family: "Inter", sans-serif;
+/* ================= BODY ================= */
+
+body.auth-page{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: linear-gradient(135deg,#4e73df,#6f42c1);
+  padding:20px;
 }
 
-/* ============================= */
+/* ================= WRAPPER ================= */
+
+.auth-wrapper{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.auth-card{
+  width:100%;
+  max-width:500px;
+  background:#ffffff;
+  border-radius:18px;
+  padding:40px 35px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.15);
+  animation:fadeIn 0.5s ease;
+}
+
+.register-card{
+  max-width:560px;
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.auth-card h2{
+  text-align:center;
+  color:#333;
+  margin-bottom:30px;
+  font-weight:600;
+}
+
+/* ================= FORM STEP ================= */
+
+.form-step{
+  display:none;
+  margin-top:10px;
+}
+
+.form-step.active{
+  display:block;
+}
+
+/* STEP TITLE FIX */
+.form-step h3{
+  font-size:18px;
+  font-weight:600;
+  margin-bottom:28px;   /* Important spacing */
+  color:#333;
+}
+
+/* ================= INPUT SECTION ================= */
+
+.input-group{
+  position:relative;
+  margin-bottom:25px;
+}
+
+.input-group input,
+.input-group select{
+  width:100%;
+  padding:20px 14px 8px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  outline:none;
+  font-size:14px;
+  background:#fff;
+  transition:0.3s;
+}
+
+/* Focus effect */
+.input-group input:focus,
+.input-group select:focus{
+  border-color:#6f42c1;
+  box-shadow:0 0 0 2px rgba(111,66,193,0.15);
+}
+
+/* ================= FLOATING LABEL ================= */
+
+.input-group label{
+  position:absolute;
+  left:14px;
+  top:18px;
+  font-size:14px;
+  font-weight:500;
+  color:#555;
+  pointer-events:none;
+  transition:0.3s ease;
+  background:#fff;
+  padding:0 6px;
+  border-radius:4px;
+}
+
+/* When typing or focused */
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label,
+.input-group select:focus + label,
+.input-group select:valid + label{
+  top:-9px;
+  left:10px;
+  font-size:12px;
+  font-weight:600;
+  color:#6f42c1;
+}
+
+/* ================= ROW RESPONSIVE ================= */
+
+.input-row{
+  display:flex;
+  gap:15px;
+}
+
+@media(max-width:600px){
+  .input-row{
+    flex-direction:column;
+  }
+}
+
+/* ================= BUTTON ================= */
+
+.auth-btn,
+.next-btn,
+.prev-btn{
+  width:100%;
+  padding:13px;
+  border:none;
+  border-radius:10px;
+  font-weight:500;
+  cursor:pointer;
+  transition:0.3s;
+  font-size:14px;
+}
+
+.auth-btn,
+.next-btn{
+  background:#6f42c1;
+  color:#fff;
+}
+
+.auth-btn:hover,
+.next-btn:hover{
+  background:#5936a3;
+}
+
+.prev-btn{
+  background:#e0e0e0;
+  margin-bottom:10px;
+}
+
+.btn-group{
+  display:flex;
+  flex-direction:column;
+}
+
+/* ================= LINKS ================= */
+
+.auth-switch{
+  text-align:center;
+  margin-top:18px;
+  font-size:13px;
+  color:#444;
+}
+
+.auth-switch a{
+  color:#6f42c1;
+  font-weight:500;
+  text-decoration:none;
+}
+
+.auth-switch a:hover{
+  text-decoration:underline;
+}
+
+/* ================= PASSWORD TOGGLE ================= */
+
+.password-wrapper{
+  position:relative;
+}
+
+.toggle-password{
+  position:absolute;
+  right:14px;
+  top:20px;
+  cursor:pointer;
+  font-size:14px;
+}
+
+/* ================= PROGRESS BAR ================= */
+
+.progress-container{
+  width:100%;
+  height:6px;
+  background:#eee;
+  border-radius:10px;
+  margin-bottom:30px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:#6f42c1;
+  transition:0.4s;
+}
+
+/* ================= MOBILE IMPROVEMENT ================= */
+
+@media(max-width:480px){
+
+  .auth-card{
+    padding:30px 20px;
+  }
+
+  .auth-card h2{
+    font-size:20px;
+  }
+
+}
+
+
 /* HOME PAGE DESIGN */
 /* ============================= */
 
@@ -61,6 +296,12 @@ body.home-page {
   font-weight: 700;
   color: #00eaff;
   text-shadow: 0 0 15px rgba(0,234,255,0.6);
+}
+
+/* 🔥 Underline Removed */
+.nav-links a,
+.nav-buttons a {
+  text-decoration: none;
 }
 
 .nav-links {
