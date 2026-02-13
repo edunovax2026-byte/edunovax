@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title> Welcome to EduNovaX </title>
+<title>Welcome to EduNovaX</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -76,6 +76,13 @@ typing();
 function toggleMenu(){
     document.querySelector(".nav-links").classList.toggle("active");
 }
+
+/* Auto close menu when clicking link (Mobile UX Upgrade) */
+document.querySelectorAll(".nav-links a").forEach(link => {
+    link.addEventListener("click", () => {
+        document.querySelector(".nav-links").classList.remove("active");
+    });
+});
 </script>
 
 </body>
