@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MCQ Questions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#f4f6f9;
+  margin:0;
+}
+
+.container{
+  max-width:800px;
+  margin:auto;
+  padding:20px;
+}
+
+h1,h2{
+  text-align:center;
+}
+
+.card{
+  background:white;
+  padding:18px;
+  margin-bottom:15px;
+  border-radius:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  cursor:pointer;
+  transition:.2s;
+}
+
+.card:hover{
+  transform:scale(1.02);
+}
+
+.options p{
+  margin:6px 0;
+}
+
+.answer{
+  margin-top:10px;
+  font-weight:bold;
+  color:green;
+}
+
+.back-btn{
+  display:inline-block;
+  margin-bottom:15px;
+  padding:8px 14px;
+  background:#007bff;
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.back-btn:hover{
+  background:#0056b3;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>MCQ Questions</h1>
+  <h2 id="pageTitle">Subjects</h2>
+  <div id="backBtn" class="back-btn" style="display:none;">⬅ Back</div>
+  <div id="content">Loading...</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  query,
+  where
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// 🔥 Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyBpasI_y-aIGFldPiv2DwJit0S7XhG5jkk",
+  authDomain: "projectx-58a7e.firebaseapp.com",
+  projectId: "projectx-58a7e",
+  storageBucket: "projectx-58a7e.firebasestorage.app",
+  messagingSenderId: "352189023227",
+  appId: "1:352189023227:web:7f93f838432329b42e815e"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const content = document.getElementById("content");
+const title = document.getElementById("pageTitle");
+const backBtn = document.getElementById("backBtn");
+
+let currentSubject = null;
+
+
+// 🔹 LOAD SUBJECTS
+async function loadSubjects(){
+  title.innerText = "Subjects";
+  backBtn.style.display = "none";
+
+  const snapshot = await getDocs(collection(db,"mcqs"));
+  const subjects = new Set();
+
+  snapshot.forEach(doc=>{
+    subjects.add(doc.data().subject);
+  });
+
+  content.innerHTML="";
+
+  subjects.forEach(sub=>{
+    content.innerHTML += `
+      <div class="card" onclick="loadChapters('${sub}')">
+        📘 ${sub}
+      </div>
+    `;
+  });
+}
+
+
+// 🔹 LOAD CHAPTERS
+window.loadChapters = async function(subject){
+  currentSubject = subject;
+  title.innerText = subject + " Chapters";
+  backBtn.style.display = "inline-block";
+
+  const q = query(collection(db,"mcqs"), where("subject","==",subject));
+  const snapshot = await getDocs(q);
+
+  const chapters = new Set();
+
+  snapshot.forEach(doc=>{
+    chapters.add(doc.data().chapter);
+  });
+
+  content.innerHTML="";
+
+  chapters.forEach(ch=>{
+    content.innerHTML += `
+      <div class="card" onclick="loadMCQs('${subject}','${ch}')">
+        📖 ${ch}
+      </div>
+    `;
+  });
+}
+
+
+// 🔹 LOAD MCQs
+window.loadMCQs = async function(subject,chapter){
+  title.innerText = chapter + " MCQs";
+  backBtn.style.display = "inline-block";
+
+  const q = query(
+    collection(db,"mcqs"),
+    where("subject","==",subject),
+    where("chapter","==",chapter)
+  );
+
+  const snapshot = await getDocs(q);
+  content.innerHTML="";
+
+  snapshot.forEach(doc=>{
+    const m = doc.data();
+
+    content.innerHTML += `
+      <div class="card">
+        <h3>${m.question}</h3>
+
+        <div class="options">
+          <p>A. ${m.option1}</p>
+          <p>B. ${m.option2}</p>
+          <p>C. ${m.option3}</p>
+          <p>D. ${m.option4}</p>
+        </div>
+
+        <div class="answer">
+          ✔ Correct Answer: ${m.answer}
+        </div>
+      </div>
+    `;
+  });
+}
+
+
+// 🔹 BACK BUTTON
+backBtn.onclick = () => {
+  if(title.innerText.includes("MCQs")){
+    loadChapters(currentSubject);
+  }else{
+    loadSubjects();
+  }
+};
+
+
+// first load
+loadSubjects();
+</script>
+
+</body>
+</html>
