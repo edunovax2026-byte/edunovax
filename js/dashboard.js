@@ -301,3 +301,11 @@ logoutBtn.addEventListener("click", async () => {
   await signOut(auth);
   window.location.href = "login.html";
 });
+
+/* ================= NOTES PAGE REDIRECT ================= */
+
+document.getElementById("notesMenu")
+  .addEventListener("click", () => {
+    window.location.href = "notes.html";
+  });
+
