@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body{
+      font-family: Arial;
+      text-align:center;
+      margin:0;
+      padding:20px;
+      background:#f4f6f9;
+    }
+    input, textarea{
+      padding:10px;
+      margin:6px;
+      width:280px;
+      border-radius:6px;
+      border:1px solid #ccc;
+    }
+    textarea{
+      width:90%;
+      height:200px;
+    }
+    button{
+      padding:10px 18px;
+      margin:6px;
+      cursor:pointer;
+      border:none;
+      border-radius:6px;
+      font-weight:bold;
+    }
+    #loginBtn{ background:#007bff; color:white; }
+    #logoutBtn{ background:red; color:white; }
+    form{
+      margin-top:15px;
+      padding:20px;
+      background:white;
+      display:inline-block;
+      border-radius:10px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    }
+    hr{ margin:40px 0; }
+  </style>
+</head>
+<body>
+
+<h2>Admin Login</h2>
+
+<div id="loginSection">
+  <input type="email" id="email" placeholder="Email"><br>
+  <input type="password" id="password" placeholder="Password"><br>
+  <button id="loginBtn">Login</button>
+</div>
+
+<div id="adminPanel" style="display:none;">
+  <h2>Admin Dashboard</h2>
+  <button id="logoutBtn">Logout</button>
+
+  <hr>
+
+  <!-- ================= NOTES UPLOAD ================= -->
+  <h3>Upload Notes (PDF)</h3>
+  <form id="uploadForm">
+    <input type="text" id="title" placeholder="Title" required><br>
+    <input type="text" id="subject" placeholder="Subject" required><br>
+    <input type="text" id="className" placeholder="Class" required><br>
+    <input type="text" id="driveFileId" placeholder="Drive File ID" required><br>
+    <button type="submit">Upload Notes</button>
+  </form>
+
+  <hr>
+
+  <!-- ================= BULK MCQ UPLOAD ================= -->
+  <h3>Bulk Upload MCQ</h3>
+
+  <form id="bulkMcqForm">
+    <textarea id="bulkMcqInput" 
+    placeholder="Paste MCQs like:
+
+1. What is 2+2?
+A. 3
+B. 4
+C. 5
+D. 6
+Answer: B
+
+2. Capital of India?
+A. Mumbai
+B. Delhi
+C. Kolkata
+D. Chennai
+Answer: B
+"></textarea><br>
+
+    <input type="text" id="bulkSubject" placeholder="Subject" required><br>
+    <input type="text" id="bulkChapter" placeholder="Chapter" required><br>
+    <input type="text" id="bulkClass" placeholder="Class" required><br>
+
+    <button type="submit">Upload All MCQs</button>
+  </form>
+</div>
+
+<script type="module">
+
+import { initializeApp } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+
+import { 
+  getAuth, 
+  signInWithEmailAndPassword, 
+  onAuthStateChanged, 
+  signOut 
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+import { 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  serverTimestamp 
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBpasI_y-aIGFldPiv2DwJit0S7XhG5jkk",
+  authDomain: "projectx-58a7e.firebaseapp.com",
+  projectId: "projectx-58a7e",
+  storageBucket: "projectx-58a7e.firebasestorage.app",
+  messagingSenderId: "352189023227",
+  appId: "1:352189023227:web:7f93f838432329b42e815e"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const loginSection = document.getElementById("loginSection");
+const adminPanel = document.getElementById("adminPanel");
+
+// 🔐 Login
+loginBtn.onclick = async () => {
+  try{
+    await signInWithEmailAndPassword(auth,email.value,password.value);
+  }catch(error){
+    alert("Login Failed ❌");
+  }
+};
+
+// 👀 Auth Check
+onAuthStateChanged(auth, user => {
+  if(user){
+    loginSection.style.display="none";
+    adminPanel.style.display="block";
+  }else{
+    loginSection.style.display="block";
+    adminPanel.style.display="none";
+  }
+});
+
+// 🚪 Logout
+logoutBtn.onclick = async () => {
+  await signOut(auth);
+  alert("Logged Out ✅");
+};
+
+// 📤 Upload Notes
+uploadForm.addEventListener("submit", async (e)=>{
+  e.preventDefault();
+  try{
+    await addDoc(collection(db,"notes"),{
+      title:title.value,
+      subject:subject.value,
+      class:className.value,
+      driveFileId:driveFileId.value,
+      downloads:0,
+      createdAt:serverTimestamp()
+    });
+    alert("Notes Uploaded ✅");
+    uploadForm.reset();
+  }catch{
+    alert("Upload Failed ❌");
+  }
+});
+
+// 📤 Bulk MCQ Upload with Chapter support
+bulkMcqForm.addEventListener("submit", async (e)=>{
+  e.preventDefault();
+
+  const rawText = bulkMcqInput.value.trim();
+  const subject = bulkSubject.value;
+  const chapter = bulkChapter.value;
+  const className = bulkClass.value;
+
+  const blocks = rawText.split("\n\n");
+
+  try{
+    for(let block of blocks){
+      const lines = block.split("\n");
+      if(lines.length < 6) continue;
+
+      const question = lines[0].replace(/^\d+\.\s*/, "");
+      const optionA = lines[1].replace("A. ","");
+      const optionB = lines[2].replace("B. ","");
+      const optionC = lines[3].replace("C. ","");
+      const optionD = lines[4].replace("D. ","");
+      const answer = lines[5].replace("Answer: ","").trim();
+
+      await addDoc(collection(db,"mcq"),{
+        question,
+        optionA,
+        optionB,
+        optionC,
+        optionD,
+        answer,
+        subject,
+        chapter,
+        class: className,
+        createdAt: serverTimestamp()
+      });
+    }
+
+    alert("All MCQs Uploaded Successfully ✅");
+    bulkMcqForm.reset();
+
+  }catch(error){
+    alert("MCQ Upload Failed ❌");
+    console.error(error);
+  }
+});
+
+</script>
+
+</body>
+</html>

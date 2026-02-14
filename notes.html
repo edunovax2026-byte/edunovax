@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Study Section</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
+
+:root{
+  --primary:#6366f1;
+  --secondary:#06b6d4;
+  --glass:rgba(255,255,255,0.06);
+  --border:rgba(255,255,255,0.12);
+  --text-soft:rgba(255,255,255,0.75);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Plus Jakarta Sans', sans-serif;
+  background:#0a0f1c;
+  color:white;
+  overflow-x:hidden;
+}
+
+/* ===== AURORA BACKGROUND ===== */
+body::before{
+  content:'';
+  position:fixed;
+  inset:-50%;
+  background:
+  radial-gradient(circle at 20% 30%,#6366f155,transparent 40%),
+  radial-gradient(circle at 80% 60%,#06b6d455,transparent 40%),
+  radial-gradient(circle at 50% 90%,#ec489955,transparent 40%);
+  animation: auroraMove 25s linear infinite alternate;
+  z-index:-2;
+}
+
+@keyframes auroraMove{
+  from{transform:rotate(0deg) scale(1);}
+  to{transform:rotate(25deg) scale(1.2);}
+}
+
+/* ===== Floating Glass Menu ===== */
+.top-menu{
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  padding:30px;
+  position:sticky;
+  top:0;
+  backdrop-filter:blur(20px);
+  background:rgba(10,15,28,0.6);
+  border-bottom:1px solid var(--border);
+  z-index:10;
+}
+
+/* ===== Menu Button ===== */
+.menu-btn{
+  padding:14px 42px;
+  border-radius:60px;
+  border:1px solid var(--border);
+  background:var(--glass);
+  color:white;
+  font-weight:600;
+  font-size:14px;
+  cursor:pointer;
+  transition:all .4s cubic-bezier(.25,.8,.25,1);
+}
+
+.menu-btn:hover{
+  transform:translateY(-4px);
+  box-shadow:0 15px 40px rgba(0,0,0,.5);
+}
+
+.menu-btn.active{
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  border:none;
+  box-shadow:0 0 25px var(--primary);
+}
+
+/* ===== Controls ===== */
+.controls{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+  margin:40px 0;
+}
+
+input,select{
+  padding:14px 26px;
+  border-radius:40px;
+  border:1px solid var(--border);
+  background:var(--glass);
+  color:white;
+  font-size:14px;
+  transition:.3s ease;
+}
+
+input:focus,select:focus{
+  outline:none;
+  border-color:var(--secondary);
+  box-shadow:0 0 25px #06b6d444;
+  transform:scale(1.05);
+}
+
+/* ===== GRID ===== */
+#contentContainer{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:40px;
+  padding:60px;
+}
+
+/* ===== Premium Card ===== */
+.card{
+  position:relative;
+  background:var(--glass);
+  border:1px solid var(--border);
+  backdrop-filter:blur(25px);
+  border-radius:28px;
+  padding:40px;
+  overflow:hidden;
+  transition:all .5s cubic-bezier(.25,.8,.25,1);
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.4),
+    inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.card:hover{
+  transform:translateY(-12px);
+  box-shadow:
+    0 30px 70px rgba(0,0,0,.7),
+    0 0 25px rgba(99,102,241,.4);
+}
+
+/* Animated Gradient Border */
+.card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:28px;
+  padding:2px;
+  background:linear-gradient(120deg,#6366f1,#06b6d4,#ec4899,#6366f1);
+  background-size:300% 300%;
+  animation:borderFlow 6s linear infinite;
+  -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+@keyframes borderFlow{
+  0%{background-position:0% 50%;}
+  100%{background-position:100% 50%;}
+}
+
+/* ===== Typography ===== */
+.card h3{
+  font-size:21px;
+  font-weight:700;
+  margin-bottom:12px;
+}
+
+.card p{
+  font-size:14px;
+  color:var(--text-soft);
+  margin-bottom:6px;
+}
+
+/* ===== Buttons ===== */
+button{
+  padding:11px 24px;
+  border-radius:30px;
+  font-weight:600;
+  font-size:13px;
+  border:none;
+  cursor:pointer;
+  margin-top:18px;
+  margin-right:8px;
+  transition:.4s;
+}
+
+.preview-btn{
+  background:linear-gradient(135deg,#8b5cf6,#6366f1);
+  color:white;
+}
+
+.download-btn{
+  background:linear-gradient(135deg,#06b6d4,#0ea5e9);
+  color:white;
+}
+
+button:hover{
+  transform:translateY(-3px);
+  box-shadow:0 15px 40px rgba(0,0,0,.6);
+}
+
+/* ===== Smooth Fade Animation ===== */
+.card{
+  animation:fadeUp .7s ease both;
+}
+
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(40px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* ===== Responsive ===== */
+@media(max-width:600px){
+  #contentContainer{
+    padding:25px;
+  }
+  .top-menu{
+    flex-direction:column;
+    align-items:center;
+  }
+}
+</style>
+
+
+
+</head>
+<body>
+
+<div class="top-menu">
+  <button class="menu-btn active" id="pdfBtn">📄 PDF</button>
+  <button class="menu-btn" id="mcqBtn">📝 MCQ</button>
+</div>
+
+<!-- PDF CONTROLS -->
+<div class="controls" id="pdfControls">
+  <input type="text" id="search" placeholder="Search Notes...">
+  <select id="filterSubject">
+    <option value="">All Subjects</option>
+  </select>
+</div>
+
+<!-- MCQ CONTROLS -->
+<div class="controls" id="mcqControls" style="display:none;">
+  <select id="mcqSubjectSelect">
+    <option value="">Select Subject</option>
+  </select>
+
+  <select id="mcqChapterSelect" style="display:none;">
+    <option value="">Select Chapter</option>
+  </select>
+</div>
+
+<div id="contentContainer"></div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, getDocs, updateDoc, doc, increment }
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// 🔑 Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyBpasI_y-aIGFldPiv2DwJit0S7XhG5jkk",
+  authDomain: "projectx-58a7e.firebaseapp.com",
+  projectId: "projectx-58a7e",
+  storageBucket: "projectx-58a7e.firebasestorage.app",
+  messagingSenderId: "352189023227",
+  appId: "1:352189023227:web:7f93f838432329b42e815e"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let allNotes=[];
+
+/* ================= PDF SYSTEM ================= */
+
+async function loadNotes(){
+  contentContainer.innerHTML="Loading PDFs...";
+  allNotes=[];
+  const snapshot = await getDocs(collection(db,"notes"));
+  const subjects = new Set();
+
+  snapshot.forEach(d=>{
+    const data=d.data();
+    data.id=d.id;
+    allNotes.push(data);
+    subjects.add(data.subject);
+  });
+
+  filterSubject.innerHTML='<option value="">All Subjects</option>';
+  subjects.forEach(sub=>{
+    filterSubject.innerHTML+=`<option>${sub}</option>`;
+  });
+
+  displayNotes(allNotes);
+}
+
+function displayNotes(notes){
+  contentContainer.innerHTML="";
+  notes.forEach(n=>{
+    const downloadLink=`https://drive.google.com/uc?export=download&id=${n.driveFileId}`;
+    const previewLink=`https://drive.google.com/file/d/${n.driveFileId}/preview`;
+
+    contentContainer.innerHTML+=`
+    <div class="card">
+      <h3>${n.title}</h3>
+      <p>${n.subject} | Class ${n.class}</p>
+      <p>⬇ Downloads: ${n.downloads||0}</p>
+      <button class="preview-btn" onclick="window.open('${previewLink}')">Preview</button>
+      <button class="download-btn" onclick="downloadNote('${n.id}','${downloadLink}')">Download</button>
+    </div>`;
+  });
+}
+
+window.downloadNote=async(id,link)=>{
+  await updateDoc(doc(db,"notes",id),{ downloads:increment(1) });
+  window.open(link,"_blank");
+};
+
+search.oninput=()=>{
+  const value=search.value.toLowerCase();
+  displayNotes(allNotes.filter(n=>n.title.toLowerCase().includes(value)));
+};
+
+filterSubject.onchange=()=>{
+  const value=filterSubject.value;
+  if(!value) return displayNotes(allNotes);
+  displayNotes(allNotes.filter(n=>n.subject===value));
+};
+
+/* ================= MCQ SYSTEM ================= */
+
+async function loadMCQSubjects(){
+  contentContainer.innerHTML="Loading Subjects...";
+  mcqControls.style.display="flex";
+  mcqChapterSelect.style.display="none";
+
+  const snapshot = await getDocs(collection(db,"mcq"));
+  const subjects = new Set();
+
+  snapshot.forEach(d=>{
+    subjects.add(d.data().subject);
+  });
+
+  mcqSubjectSelect.innerHTML='<option value="">Select Subject</option>';
+  subjects.forEach(sub=>{
+    mcqSubjectSelect.innerHTML+=`<option value="${sub}">${sub}</option>`;
+  });
+
+  contentContainer.innerHTML="";
+}
+
+mcqSubjectSelect.onchange = async ()=>{
+  const selectedSubject = mcqSubjectSelect.value;
+  if(!selectedSubject) return;
+
+  contentContainer.innerHTML="Loading Chapters...";
+
+  const snapshot = await getDocs(collection(db,"mcq"));
+  const chapters = new Set();
+
+  snapshot.forEach(d=>{
+    const data=d.data();
+    if(data.subject===selectedSubject){
+      chapters.add(data.chapter);
+    }
+  });
+
+  mcqChapterSelect.style.display="inline-block";
+  mcqChapterSelect.innerHTML='<option value="">Select Chapter</option>';
+  chapters.forEach(ch=>{
+    mcqChapterSelect.innerHTML+=`<option value="${ch}">${ch}</option>`;
+  });
+
+  contentContainer.innerHTML="";
+};
+
+mcqChapterSelect.onchange = async ()=>{
+  const subject = mcqSubjectSelect.value;
+  const chapter = mcqChapterSelect.value;
+  if(!chapter) return;
+
+  contentContainer.innerHTML="Loading MCQ...";
+
+  const snapshot = await getDocs(collection(db,"mcq"));
+  const filtered = [];
+
+  snapshot.forEach(d=>{
+    const data=d.data();
+    if(data.subject===subject && data.chapter===chapter){
+      filtered.push(data);
+    }
+  });
+
+  displayMCQ(filtered);
+};
+
+function displayMCQ(mcqs){
+  contentContainer.innerHTML="";
+
+  mcqs.forEach((q,index)=>{
+    contentContainer.innerHTML+=`
+    <div class="card">
+      <h3>Q${index+1}. ${q.question}</h3>
+      <p>A. ${q.optionA}</p>
+      <p>B. ${q.optionB}</p>
+      <p>C. ${q.optionC}</p>
+      <p>D. ${q.optionD}</p>
+      <p style="margin-top:10px; font-weight:bold; color:#00ffae;">
+        ✅ Correct Answer: ${q.answer}
+      </p>
+    </div>`;
+  });
+}
+
+/* ================= MENU SWITCH ================= */
+
+pdfBtn.onclick=()=>{
+  pdfBtn.classList.add("active");
+  mcqBtn.classList.remove("active");
+  pdfControls.style.display="flex";
+  mcqControls.style.display="none";
+  loadNotes();
+};
+
+mcqBtn.onclick=()=>{
+  mcqBtn.classList.add("active");
+  pdfBtn.classList.remove("active");
+  pdfControls.style.display="none";
+  mcqControls.style.display="flex";
+  loadMCQSubjects();
+};
+
+/* DEFAULT LOAD */
+loadNotes();
+
+</script>
+</body>
+</html>
