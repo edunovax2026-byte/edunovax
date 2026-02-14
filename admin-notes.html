@@ -3,121 +3,194 @@
 <head>
   <title>Admin Panel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body{
-      font-family: Arial;
-      text-align:center;
-      margin:0;
-      padding:20px;
-      background:#f4f6f9;
-    }
-    input, textarea{
-      padding:10px;
-      margin:6px;
-      width:280px;
-      border-radius:6px;
-      border:1px solid #ccc;
-    }
-    textarea{
-      width:90%;
-      height:200px;
-    }
-    button{
-      padding:10px 18px;
-      margin:6px;
-      cursor:pointer;
-      border:none;
-      border-radius:6px;
-      font-weight:bold;
-    }
-    #loginBtn{ background:#007bff; color:white; }
-    #logoutBtn{ background:red; color:white; }
-    form{
-      margin-top:15px;
-      padding:20px;
-      background:white;
-      display:inline-block;
-      border-radius:10px;
-      box-shadow:0 4px 10px rgba(0,0,0,0.1);
-    }
-    hr{ margin:40px 0; }
-  </style>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#4facfe,#00f2fe);
+}
+
+/* LOGIN */
+#loginSection{
+  background:white;
+  padding:35px;
+  border-radius:15px;
+  width:320px;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+input, textarea{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border-radius:8px;
+  border:1px solid #ddd;
+}
+
+button{
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:#2563eb;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* DASHBOARD */
+#adminPanel{display:flex;min-height:100vh;}
+
+.sidebar{
+  width:220px;
+  background:#1e293b;
+  color:white;
+  padding:20px;
+}
+
+.sidebar li{
+  list-style:none;
+  padding:12px;
+  margin-top:8px;
+  cursor:pointer;
+  border-radius:6px;
+}
+
+.sidebar li:hover{background:#334155;}
+
+.mainContent{
+  flex:1;
+  padding:25px;
+  background:#f1f5f9;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.listItem{
+  background:#f8fafc;
+  padding:10px;
+  border-radius:8px;
+  margin-top:8px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.listItem button{
+  width:auto;
+  padding:5px 10px;
+  margin-left:5px;
+  font-size:13px;
+}
+</style>
 </head>
 <body>
 
-<h2>Admin Login</h2>
-
+<!-- LOGIN -->
 <div id="loginSection">
-  <input type="email" id="email" placeholder="Email"><br>
-  <input type="password" id="password" placeholder="Password"><br>
+  <h2>Admin Login</h2>
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
   <button id="loginBtn">Login</button>
 </div>
 
+<!-- DASHBOARD -->
 <div id="adminPanel" style="display:none;">
-  <h2>Admin Dashboard</h2>
-  <button id="logoutBtn">Logout</button>
 
-  <hr>
+  <div class="sidebar">
+    <h2>Admin</h2>
+    <li onclick="showSection('notesSection')">📄 Notes</li>
+    <li onclick="showSection('mcqSection')">🧠 MCQ</li>
+    <li id="logoutBtn">🚪 Logout</li>
+  </div>
 
-  <!-- ================= NOTES UPLOAD ================= -->
-  <h3>Upload Notes (PDF)</h3>
-  <form id="uploadForm">
-    <input type="text" id="title" placeholder="Title" required><br>
-    <input type="text" id="subject" placeholder="Subject" required><br>
-    <input type="text" id="className" placeholder="Class" required><br>
-    <input type="text" id="driveFileId" placeholder="Drive File ID" required><br>
-    <button type="submit">Upload Notes</button>
-  </form>
+  <div class="mainContent">
 
-  <hr>
+    <!-- NOTES -->
+    <div id="notesSection" class="card">
+      <h3>Upload Notes</h3>
+      <form id="uploadForm">
+        <input id="title" placeholder="Title" required>
+        <input id="subject" placeholder="Subject" required>
+        <input id="className" placeholder="Class" required>
+        <input id="driveFileId" placeholder="Drive File ID" required>
+        <button type="submit">Upload</button>
+      </form>
 
-  <!-- ================= BULK MCQ UPLOAD ================= -->
-  <h3>Bulk Upload MCQ</h3>
+      <h3>Uploaded Notes</h3>
+      <div id="notesList"></div>
+    </div>
 
-  <form id="bulkMcqForm">
-    <textarea id="bulkMcqInput" 
-    placeholder="Paste MCQs like:
+    <!-- MCQ -->
+    <div id="mcqSection" class="card" style="display:none;">
 
-1. What is 2+2?
-A. 3
-B. 4
-C. 5
-D. 6
+      <h3>Upload / Edit MCQ</h3>
+      <form id="mcqForm">
+        <textarea id="mcqQuestion" placeholder="Question" required></textarea>
+
+        <input id="opt1" placeholder="Option 1" required>
+        <input id="opt2" placeholder="Option 2" required>
+        <input id="opt3" placeholder="Option 3" required>
+        <input id="opt4" placeholder="Option 4" required>
+
+        <input id="correctAns" placeholder="Correct Answer (A/B/C/D)" required>
+
+        <input id="mcqSubject" placeholder="Subject">
+        <input id="mcqChapter" placeholder="Chapter">
+
+        <button id="saveBtn" type="submit">Save MCQ</button>
+      </form>
+
+      <hr><br>
+
+      <h3>Bulk MCQ Upload</h3>
+      <input id="bulkSubject" placeholder="Subject for all MCQs">
+      <input id="bulkChapter" placeholder="Chapter for all MCQs">
+
+<textarea id="bulkMCQ" placeholder="
+1. What is CPU?
+A. Central Process Unit
+B. Central Processing Unit
+C. Computer Personal Unit
+D. None
 Answer: B
+"></textarea>
 
-2. Capital of India?
-A. Mumbai
-B. Delhi
-C. Kolkata
-D. Chennai
-Answer: B
-"></textarea><br>
+      <button onclick="uploadBulkMCQ()">Upload Bulk MCQ</button>
 
-    <input type="text" id="bulkSubject" placeholder="Subject" required><br>
-    <input type="text" id="bulkChapter" placeholder="Chapter" required><br>
-    <input type="text" id="bulkClass" placeholder="Class" required><br>
+      <hr><br>
 
-    <button type="submit">Upload All MCQs</button>
-  </form>
+      <h3>MCQ List</h3>
+      <div id="mcqList"></div>
+
+    </div>
+
+  </div>
 </div>
 
 <script type="module">
-
-import { initializeApp } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-
-import { 
-  getAuth, 
-  signInWithEmailAndPassword, 
-  onAuthStateChanged, 
-  signOut 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getAuth, signInWithEmailAndPassword,
+  onAuthStateChanged, signOut,
+  setPersistence, browserSessionPersistence
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-import { 
-  getFirestore, 
-  collection, 
-  addDoc, 
-  serverTimestamp 
+import {
+  getFirestore, collection, addDoc, serverTimestamp,
+  getDocs, deleteDoc, doc, updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -133,106 +206,189 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const loginSection = document.getElementById("loginSection");
-const adminPanel = document.getElementById("adminPanel");
+setPersistence(auth, browserSessionPersistence);
 
-// 🔐 Login
-loginBtn.onclick = async () => {
-  try{
-    await signInWithEmailAndPassword(auth,email.value,password.value);
-  }catch(error){
-    alert("Login Failed ❌");
-  }
-};
+let editId = null;
 
-// 👀 Auth & Admin Check
-onAuthStateChanged(auth, user => {
-  if(user && user.email === "edunovax2026@gmail.com"){
-    loginSection.style.display = "none";
-    adminPanel.style.display = "block";
-  } else {
-    loginSection.style.display = "block";
-    adminPanel.style.display = "none";
-    if(user){
-      alert("Access Denied ❌ You are not admin");
-      signOut(auth); // non-admin user লগআউট
-    }
+// LOGIN
+loginBtn.onclick = () =>
+  signInWithEmailAndPassword(auth,email.value,password.value);
+
+onAuthStateChanged(auth,user=>{
+  if(user){
+    loginSection.style.display="none";
+    adminPanel.style.display="flex";
+    loadNotes();
+    loadMCQs();
+  }else{
+    loginSection.style.display="block";
+    adminPanel.style.display="none";
   }
 });
 
-// 🚪 Logout
-logoutBtn.onclick = async () => {
-  await signOut(auth);
-  alert("Logged Out ✅");
+logoutBtn.onclick = () => signOut(auth);
+
+window.showSection=id=>{
+  notesSection.style.display="none";
+  mcqSection.style.display="none";
+  document.getElementById(id).style.display="block";
 };
 
-// 📤 Upload Notes
-uploadForm.addEventListener("submit", async (e)=>{
+//////////////// NOTES //////////////////
+uploadForm.onsubmit=async e=>{
   e.preventDefault();
-  try{
-    await addDoc(collection(db,"notes"),{
-      title:title.value,
-      subject:subject.value,
-      class:className.value,
-      driveFileId:driveFileId.value,
-      downloads:0,
+  await addDoc(collection(db,"notes"),{
+    title:title.value,
+    subject:subject.value,
+    class:className.value,
+    driveFileId:driveFileId.value,
+    downloads:0,
+    createdAt:serverTimestamp()
+  });
+  uploadForm.reset();
+  loadNotes();
+};
+
+async function loadNotes(){
+  const snap=await getDocs(collection(db,"notes"));
+  notesList.innerHTML="";
+  snap.forEach(d=>{
+    const n=d.data();
+    notesList.innerHTML+=`
+    <div class="listItem">
+      <div><b>${n.title}</b><br>${n.subject}</div>
+      <button onclick="deleteNote('${d.id}')">Delete</button>
+    </div>`;
+  });
+}
+
+window.deleteNote=async id=>{
+  if(confirm("Delete note?")){
+    await deleteDoc(doc(db,"notes",id));
+    loadNotes();
+  }
+};
+
+//////////////// MCQ SAVE / UPDATE //////////////////
+mcqForm.onsubmit=async e=>{
+  e.preventDefault();
+
+  const map={A:opt1.value,B:opt2.value,C:opt3.value,D:opt4.value};
+  let ans=correctAns.value.trim().toUpperCase();
+  if(map[ans]) ans=map[ans];
+
+  const data={
+    question:mcqQuestion.value,
+    option1:opt1.value,
+    option2:opt2.value,
+    option3:opt3.value,
+    option4:opt4.value,
+    answer:ans,
+    subject:mcqSubject.value,
+    chapter:mcqChapter.value,
+    createdAt:serverTimestamp()
+  };
+
+  if(editId){
+    await updateDoc(doc(db,"mcqs",editId),data);
+    editId=null;
+    saveBtn.innerText="Save MCQ";
+  }else{
+    await addDoc(collection(db,"mcqs"),data);
+  }
+
+  mcqForm.reset();
+  loadMCQs();
+};
+
+//////////////// LOAD MCQ //////////////////
+async function loadMCQs(){
+  const snap=await getDocs(collection(db,"mcqs"));
+  mcqList.innerHTML="";
+  snap.forEach(d=>{
+    const m=d.data();
+    mcqList.innerHTML+=`
+    <div class="listItem">
+      <div>
+        <b>${m.question}</b><br>
+        ${m.subject || ""} | ${m.chapter || ""}
+      </div>
+      <div>
+        <button onclick="editMCQ('${d.id}',
+          \`${m.question}\`,
+          \`${m.option1}\`,
+          \`${m.option2}\`,
+          \`${m.option3}\`,
+          \`${m.option4}\`,
+          \`${m.answer}\`,
+          \`${m.subject || ""}\`,
+          \`${m.chapter || ""}\`
+        )">Edit</button>
+        <button onclick="deleteMCQ('${d.id}')">Delete</button>
+      </div>
+    </div>`;
+  });
+}
+
+window.editMCQ=(id,q,o1,o2,o3,o4,ans,sub,chap)=>{
+  editId=id;
+  mcqQuestion.value=q;
+  opt1.value=o1;
+  opt2.value=o2;
+  opt3.value=o3;
+  opt4.value=o4;
+  correctAns.value=ans;
+  mcqSubject.value=sub;
+  mcqChapter.value=chap;
+  saveBtn.innerText="Update MCQ";
+  window.scrollTo({top:0,behavior:"smooth"});
+};
+
+window.deleteMCQ=async id=>{
+  if(confirm("Delete MCQ?")){
+    await deleteDoc(doc(db,"mcqs",id));
+    loadMCQs();
+  }
+};
+
+//////////////// BULK UPLOAD //////////////////
+window.uploadBulkMCQ=async()=>{
+  const text=bulkMCQ.value.trim();
+  const subject=bulkSubject.value;
+  const chapter=bulkChapter.value;
+
+  if(!text){ alert("Paste MCQs"); return; }
+
+  const blocks=text.split(/\n\s*\n/);
+  let added=0;
+
+  for(const block of blocks){
+    const lines=block.split("\n").map(l=>l.trim());
+    if(lines.length<6) continue;
+
+    const question=lines[0].replace(/^\d+\.\s*/,"");
+    const option1=lines[1].replace(/^A\.\s*/i,"");
+    const option2=lines[2].replace(/^B\.\s*/i,"");
+    const option3=lines[3].replace(/^C\.\s*/i,"");
+    const option4=lines[4].replace(/^D\.\s*/i,"");
+    const letter=lines[5].split(":")[1].trim().toUpperCase();
+
+    const map={A:option1,B:option2,C:option3,D:option4};
+
+    await addDoc(collection(db,"mcqs"),{
+      question,option1,option2,option3,option4,
+      answer:map[letter],
+      subject,chapter,
       createdAt:serverTimestamp()
     });
-    alert("Notes Uploaded ✅");
-    uploadForm.reset();
-  }catch{
-    alert("Upload Failed ❌");
+
+    added++;
   }
-});
 
-// 📤 Bulk MCQ Upload with Chapter support
-bulkMcqForm.addEventListener("submit", async (e)=>{
-  e.preventDefault();
-
-  const rawText = bulkMcqInput.value.trim();
-  const subject = bulkSubject.value;
-  const chapter = bulkChapter.value;
-  const className = bulkClass.value;
-
-  const blocks = rawText.split("\n\n");
-
-  try{
-    for(let block of blocks){
-      const lines = block.split("\n");
-      if(lines.length < 6) continue;
-
-      const question = lines[0].replace(/^\d+\.\s*/, "");
-      const optionA = lines[1].replace("A. ","");
-      const optionB = lines[2].replace("B. ","");
-      const optionC = lines[3].replace("C. ","");
-      const optionD = lines[4].replace("D. ","");
-      const answer = lines[5].replace("Answer: ","").trim();
-
-      await addDoc(collection(db,"mcq"),{
-        question,
-        optionA,
-        optionB,
-        optionC,
-        optionD,
-        answer,
-        subject,
-        chapter,
-        class: className,
-        createdAt: serverTimestamp()
-      });
-    }
-
-    alert("All MCQs Uploaded Successfully ✅");
-    bulkMcqForm.reset();
-
-  }catch(error){
-    alert("MCQ Upload Failed ❌");
-    console.error(error);
-  }
-});
-
+  alert(added+" MCQs uploaded ✅");
+  bulkMCQ.value="";
+  loadMCQs();
+};
 </script>
-
 </body>
 </html>
-
