@@ -80,19 +80,6 @@ body{
   transform:translateY(-5px);
 }
 
-/* Profile */
-.profile-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
-}
-
-.profile-item{
-  background:#f1f5f9;
-  padding:15px;
-  border-radius:8px;
-}
-
 /* Animation */
 .fade-in{
   animation:fade 0.4s ease;
@@ -103,15 +90,7 @@ body{
   to{opacity:1; transform:translateY(0);}
 }
 
-@media(max-width:900px){
-  .card-grid{
-    grid-template-columns:1fr;
-  }
-  .profile-grid{
-    grid-template-columns:1fr;
-  }
-}
- 
+/* Buttons & Forms */
 .edit-btn {
   margin-top:20px;
   padding:10px 20px;
@@ -125,12 +104,6 @@ body{
 .edit-form {
   display:grid;
   gap:15px;
-}
-
-.edit-form input {
-  padding:10px;
-  border:1px solid #ddd;
-  border-radius:8px;
 }
 
 .form-buttons {
@@ -241,4 +214,58 @@ body{
   font-size: 18px;
   font-weight: 600;
   color: #111827;
+}
+
+/* ============================= */
+/* ✅ RESPONSIVE DESIGN */
+/* ============================= */
+
+/* Tablet */
+@media(max-width:900px){
+  .card-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+/* Mobile Layout */
+@media (max-width:768px){
+
+  .dashboard{
+    flex-direction: column;
+  }
+
+  .sidebar{
+    width:100%;
+    padding:15px;
+  }
+
+  .sidebar ul{
+    display:flex;
+    overflow-x:auto;
+    gap:10px;
+  }
+
+  .sidebar li{
+    white-space:nowrap;
+    flex:0 0 auto;
+  }
+
+  .main{
+    padding:20px 15px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width:600px){
+  .profile-header{
+    flex-direction:column;
+    text-align:center;
+  }
+}
+
+/* Extra Small */
+@media (max-width:500px){
+  .topbar h1{
+    font-size:20px;
+  }
 }
