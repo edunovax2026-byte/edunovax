@@ -3,443 +3,516 @@
 <head>
 <title>Study Section</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
-
-:root{
-  --primary:#6366f1;
-  --secondary:#06b6d4;
-  --glass:rgba(255,255,255,0.06);
-  --border:rgba(255,255,255,0.12);
-  --text-soft:rgba(255,255,255,0.75);
-}
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
 
 body{
-  font-family:'Plus Jakarta Sans', sans-serif;
-  background:#0a0f1c;
-  color:white;
-  overflow-x:hidden;
+min-height:100vh;
+padding:30px;
+color:#fff;
+background:#0f1226;
+overflow-x:hidden;
 }
 
-/* ===== AURORA BACKGROUND ===== */
-body::before{
-  content:'';
-  position:fixed;
-  inset:-50%;
-  background:
-  radial-gradient(circle at 20% 30%,#6366f155,transparent 40%),
-  radial-gradient(circle at 80% 60%,#06b6d455,transparent 40%),
-  radial-gradient(circle at 50% 90%,#ec489955,transparent 40%);
-  animation: auroraMove 25s linear infinite alternate;
-  z-index:-2;
+/* animated background blobs */
+body::before,body::after{
+content:"";
+position:fixed;
+width:600px;
+height:600px;
+border-radius:50%;
+filter:blur(120px);
+z-index:-1;
+animation:float 18s infinite alternate ease-in-out;
+}
+body::before{background:#6a5cff;left:-200px;top:-200px}
+body::after{background:#ff4ecd;right:-200px;bottom:-200px;animation-delay:6s}
+
+@keyframes float{
+0%{transform:translateY(0) translateX(0)}
+100%{transform:translateY(80px) translateX(40px)}
 }
 
-@keyframes auroraMove{
-  from{transform:rotate(0deg) scale(1);}
-  to{transform:rotate(25deg) scale(1.2);}
+h1{
+text-align:center;
+margin-bottom:25px;
+font-weight:600;
+letter-spacing:1px;
+text-shadow:0 0 25px rgba(255,255,255,.5);
 }
 
-/* ===== Floating Glass Menu ===== */
-.top-menu{
-  display:flex;
-  justify-content:center;
-  gap:25px;
-  padding:30px;
-  position:sticky;
-  top:0;
-  backdrop-filter:blur(20px);
-  background:rgba(10,15,28,0.6);
-  border-bottom:1px solid var(--border);
-  z-index:10;
-}
-
-/* ===== Menu Button ===== */
-.menu-btn{
-  padding:14px 42px;
-  border-radius:60px;
-  border:1px solid var(--border);
-  background:var(--glass);
-  color:white;
-  font-weight:600;
-  font-size:14px;
-  cursor:pointer;
-  transition:all .4s cubic-bezier(.25,.8,.25,1);
-}
-
-.menu-btn:hover{
-  transform:translateY(-4px);
-  box-shadow:0 15px 40px rgba(0,0,0,.5);
-}
-
-.menu-btn.active{
-  background:linear-gradient(135deg,var(--primary),var(--secondary));
-  border:none;
-  box-shadow:0 0 25px var(--primary);
-}
-
-/* ===== Controls ===== */
-.controls{
-  display:flex;
-  justify-content:center;
-  gap:20px;
-  flex-wrap:wrap;
-  margin:40px 0;
-}
-
-input,select{
-  padding:14px 26px;
-  border-radius:40px;
-  border:1px solid var(--border);
-  background:var(--glass);
-  color:white;
-  font-size:14px;
-  transition:.3s ease;
-}
-
-input:focus,select:focus{
-  outline:none;
-  border-color:var(--secondary);
-  box-shadow:0 0 25px #06b6d444;
-  transform:scale(1.05);
-}
-
-/* ===== GRID ===== */
-#contentContainer{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-  gap:40px;
-  padding:60px;
-}
-
-/* ===== Premium Card ===== */
-.card{
-  position:relative;
-  background:var(--glass);
-  border:1px solid var(--border);
-  backdrop-filter:blur(25px);
-  border-radius:28px;
-  padding:40px;
-  overflow:hidden;
-  transition:all .5s cubic-bezier(.25,.8,.25,1);
-  box-shadow:
-    0 20px 50px rgba(0,0,0,.4),
-    inset 0 1px 0 rgba(255,255,255,.05);
-}
-
-.card:hover{
-  transform:translateY(-12px);
-  box-shadow:
-    0 30px 70px rgba(0,0,0,.7),
-    0 0 25px rgba(99,102,241,.4);
-}
-
-/* Animated Gradient Border */
-.card::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  border-radius:28px;
-  padding:2px;
-  background:linear-gradient(120deg,#6366f1,#06b6d4,#ec4899,#6366f1);
-  background-size:300% 300%;
-  animation:borderFlow 6s linear infinite;
-  -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-}
-
-@keyframes borderFlow{
-  0%{background-position:0% 50%;}
-  100%{background-position:100% 50%;}
-}
-
-/* ===== Typography ===== */
-.card h3{
-  font-size:21px;
-  font-weight:700;
-  margin-bottom:12px;
-}
-
-.card p{
-  font-size:14px;
-  color:var(--text-soft);
-  margin-bottom:6px;
-}
-
-/* ===== Buttons ===== */
+/* buttons */
 button{
-  padding:11px 24px;
-  border-radius:30px;
-  font-weight:600;
-  font-size:13px;
-  border:none;
-  cursor:pointer;
-  margin-top:18px;
-  margin-right:8px;
-  transition:.4s;
-}
-
-.preview-btn{
-  background:linear-gradient(135deg,#8b5cf6,#6366f1);
-  color:white;
-}
-
-.download-btn{
-  background:linear-gradient(135deg,#06b6d4,#0ea5e9);
-  color:white;
+padding:11px 24px;
+border:none;
+border-radius:40px;
+margin:6px;
+cursor:pointer;
+font-weight:500;
+transition:.35s;
+color:white;
+background:linear-gradient(45deg,#6a5cff,#ff4ecd);
+box-shadow:0 0 18px rgba(255,78,205,.6);
+position:relative;
+overflow:hidden;
 }
 
 button:hover{
-  transform:translateY(-3px);
-  box-shadow:0 15px 40px rgba(0,0,0,.6);
+transform:translateY(-3px) scale(1.05);
+box-shadow:0 0 30px rgba(255,78,205,.95);
 }
 
-/* ===== Smooth Fade Animation ===== */
-.card{
-  animation:fadeUp .7s ease both;
+.active{
+background:linear-gradient(45deg,#00eaff,#6a5cff)!important;
+box-shadow:0 0 25px cyan!important;
+}
+
+.top-buttons{text-align:center;margin-bottom:25px}
+
+/* controls */
+.controls{
+background:rgba(255,255,255,.07);
+border:1px solid rgba(255,255,255,.15);
+padding:16px;
+border-radius:20px;
+margin-bottom:25px;
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+justify-content:center;
+backdrop-filter:blur(20px);
+animation:fadeUp .6s ease;
 }
 
 @keyframes fadeUp{
-  from{opacity:0; transform:translateY(40px);}
-  to{opacity:1; transform:translateY(0);}
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
 }
 
-/* ===== Responsive ===== */
-@media(max-width:600px){
-  #contentContainer{
-    padding:25px;
-  }
-  .top-menu{
-    flex-direction:column;
-    align-items:center;
-  }
+/* inputs */
+input,select{
+padding:12px 16px;
+border-radius:14px;
+border:1px solid rgba(255,255,255,.2);
+background:rgba(255,255,255,.08);
+color:white;
+outline:none;
+min-width:200px;
+transition:.3s;
 }
+
+/* FIX WHITE DROPDOWN */
+select option{
+background:#1a1d3a;
+color:white;
+}
+
+/* remove autofill white bg */
+input:-webkit-autofill{
+-webkit-box-shadow:0 0 0 1000px rgba(255,255,255,.08) inset!important;
+-webkit-text-fill-color:white!important;
+}
+
+input::placeholder{color:#ccc}
+
+input:focus,select:focus{
+border-color:#ff4ecd;
+box-shadow:0 0 15px #ff4ecd;
+transform:scale(1.02);
+}
+
+/* grid */
+#contentContainer{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
+}
+
+/* cards */
+.card{
+background:rgba(255,255,255,.07);
+border:1px solid rgba(255,255,255,.2);
+padding:22px;
+border-radius:24px;
+backdrop-filter:blur(20px);
+transition:.45s;
+position:relative;
+overflow:hidden;
+opacity:0;
+animation:cardIn .6s forwards;
+}
+
+.card:nth-child(1){animation-delay:.05s}
+.card:nth-child(2){animation-delay:.1s}
+.card:nth-child(3){animation-delay:.15s}
+.card:nth-child(4){animation-delay:.2s}
+.card:nth-child(5){animation-delay:.25s}
+
+@keyframes cardIn{
+from{opacity:0;transform:translateY(40px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+.card::before{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(120deg,transparent,rgba(255,255,255,.2),transparent);
+opacity:0;
+transition:.6s;
+}
+.card:hover::before{opacity:1}
+
+.card:hover{
+transform:translateY(-12px) scale(1.04);
+box-shadow:0 0 35px rgba(255,78,205,.7);
+}
+
+.card h3{margin-bottom:10px}
+.card p{margin:5px 0;font-size:14px;color:#ddd}
+
+/* loading text */
+.loading{
+text-align:center;
+font-size:20px;
+grid-column:1/-1;
+animation:pulse 1.3s infinite;
+}
+@keyframes pulse{
+0%,100%{opacity:.3}
+50%{opacity:1}
+}
+/* section title highlight */
+.card h3{
+font-size:20px;
+font-weight:600;
+color:#fff;
+margin-bottom:12px;
+position:relative;
+padding-bottom:8px;
+}
+
+.card h3::after{
+content:"";
+position:absolute;
+left:0;
+bottom:0;
+width:50px;
+height:3px;
+border-radius:5px;
+background:linear-gradient(90deg,#00eaff,#ff4ecd);
+}
+
+/* topic text */
+.card p{
+font-size:15px;
+color:#eaeaf0;
+letter-spacing:.3px;
+}
+
+/* PDF label badge */
+.card p strong{
+background:linear-gradient(45deg,#ff4ecd,#6a5cff);
+padding:4px 10px;
+border-radius:30px;
+font-size:12px;
+margin-right:6px;
+color:#fff;
+}
+
+/* clickable pdf link */
+.card a{
+display:inline-block;
+margin-top:10px;
+padding:8px 18px;
+border-radius:30px;
+font-size:14px;
+text-decoration:none;
+color:white;
+background:linear-gradient(45deg,#00eaff,#6a5cff);
+transition:.3s;
+box-shadow:0 0 12px rgba(0,234,255,.6);
+}
+
+.card a:hover{
+transform:scale(1.08);
+box-shadow:0 0 22px rgba(0,234,255,1);
+}
+
+/* MCQ topic tag style */
+.topic{
+display:inline-block;
+padding:6px 14px;
+margin:4px;
+font-size:13px;
+border-radius:30px;
+background:rgba(255,255,255,.1);
+border:1px solid rgba(255,255,255,.25);
+transition:.3s;
+}
+
+.topic:hover{
+background:linear-gradient(45deg,#ff4ecd,#6a5cff);
+transform:scale(1.1);
+}
+
+/* ===== PDF Section Text Fix ===== */
+
+/* subject + class line */
+.card p:first-of-type{
+font-weight:500;
+color:#ffffff;
+opacity:.95;
+}
+
+/* downloads count highlight */
+.card p:nth-of-type(2){
+color:#00eaff;
+font-weight:600;
+letter-spacing:.5px;
+}
+
+/* ===== MCQ Section Fix ===== */
+
+/* Question highlight */
+.card h3{
+color:#ffffff;
+font-size:18px;
+line-height:1.5;
+}
+
+/* MCQ options */
+.card p{
+color:#f1f1ff;
+font-size:15px;
+font-weight:500;
+}
+
+/* option hover glow */
+.card p:hover{
+color:#ffffff;
+text-shadow:0 0 8px #ff4ecd;
+}
+
+/* Correct answer highlight */
+.card p b{
+color:#00ffae;
+font-weight:700;
+font-size:15px;
+}
+
+/* MCQ correct answer line */
+.card p:last-child{
+background:rgba(0,255,174,.08);
+border-left:4px solid #00ffae;
+padding:8px 12px;
+border-radius:10px;
+margin-top:8px;
+}
+
+
+
 </style>
 
-
-
 </head>
+
 <body>
 
-<div class="top-menu">
-  <button class="menu-btn active" id="pdfBtn">📄 PDF</button>
-  <button class="menu-btn" id="mcqBtn">📝 MCQ</button>
+<h1>Study Section</h1>
+
+<div class="top-buttons">
+<button id="pdfBtn">PDF</button>
+<button id="mcqBtn">MCQ</button>
 </div>
 
-<!-- PDF CONTROLS -->
 <div class="controls" id="pdfControls">
-  <input type="text" id="search" placeholder="Search Notes...">
-  <select id="filterSubject">
-    <option value="">All Subjects</option>
-  </select>
+<input type="text" id="search" placeholder="Search Notes...">
+<select id="filterSubject"><option value="">All Subjects</option></select>
 </div>
 
-<!-- MCQ CONTROLS -->
 <div class="controls" id="mcqControls" style="display:none;">
-  <select id="mcqSubjectSelect">
-    <option value="">Select Subject</option>
-  </select>
-
-  <select id="mcqChapterSelect" style="display:none;">
-    <option value="">Select Chapter</option>
-  </select>
+<select id="mcqSubjectSelect"><option value="">Select Subject</option></select>
+<select id="mcqChapterSelect" style="display:none;">
+<option value="">Select Chapter</option>
+</select>
 </div>
 
 <div id="contentContainer"></div>
 
 <script type="module">
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, getDocs, updateDoc, doc, increment }
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, updateDoc, doc, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// 🔑 Firebase Config
-const firebaseConfig = {
-  apiKey: "AIzaSyBpasI_y-aIGFldPiv2DwJit0S7XhG5jkk",
-  authDomain: "projectx-58a7e.firebaseapp.com",
-  projectId: "projectx-58a7e",
-  storageBucket: "projectx-58a7e.firebasestorage.app",
-  messagingSenderId: "352189023227",
-  appId: "1:352189023227:web:7f93f838432329b42e815e"
+const firebaseConfig={
+apiKey:"AIzaSyBpasI_y-aIGFldPiv2DwJit0S7XhG5jkk",
+authDomain:"projectx-58a7e.firebaseapp.com",
+projectId:"projectx-58a7e",
+storageBucket:"projectx-58a7e.appspot.com",
+messagingSenderId:"352189023227",
+appId:"1:352189023227:web:7f93f838432329b42e815e"
 };
 
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const contentContainer=document.getElementById("contentContainer");
+const search=document.getElementById("search");
+const filterSubject=document.getElementById("filterSubject");
+const mcqSubjectSelect=document.getElementById("mcqSubjectSelect");
+const mcqChapterSelect=document.getElementById("mcqChapterSelect");
+const pdfBtn=document.getElementById("pdfBtn");
+const mcqBtn=document.getElementById("mcqBtn");
+const pdfControls=document.getElementById("pdfControls");
+const mcqControls=document.getElementById("mcqControls");
 
 let allNotes=[];
 
-/* ================= PDF SYSTEM ================= */
-
 async function loadNotes(){
-  contentContainer.innerHTML="Loading PDFs...";
-  allNotes=[];
-  const snapshot = await getDocs(collection(db,"notes"));
-  const subjects = new Set();
-
-  snapshot.forEach(d=>{
-    const data=d.data();
-    data.id=d.id;
-    allNotes.push(data);
-    subjects.add(data.subject);
-  });
-
-  filterSubject.innerHTML='<option value="">All Subjects</option>';
-  subjects.forEach(sub=>{
-    filterSubject.innerHTML+=`<option>${sub}</option>`;
-  });
-
-  displayNotes(allNotes);
+contentContainer.innerHTML='<div class="loading">Loading PDFs...</div>';
+allNotes=[];
+const snapshot=await getDocs(collection(db,"notes"));
+const subjects=new Set();
+snapshot.forEach(d=>{
+const data=d.data();
+data.id=d.id;
+allNotes.push(data);
+subjects.add(data.subject);
+});
+filterSubject.innerHTML='<option value="">All Subjects</option>';
+subjects.forEach(s=>filterSubject.innerHTML+=`<option>${s}</option>`);
+displayNotes(allNotes);
 }
 
 function displayNotes(notes){
-  contentContainer.innerHTML="";
-  notes.forEach(n=>{
-    const downloadLink=`https://drive.google.com/uc?export=download&id=${n.driveFileId}`;
-    const previewLink=`https://drive.google.com/file/d/${n.driveFileId}/preview`;
+contentContainer.innerHTML="";
+notes.forEach(n=>{
+const downloadLink=`https://drive.google.com/uc?export=download&id=${n.driveFileId}`;
+const previewLink=`https://drive.google.com/file/d/${n.driveFileId}/preview`;
 
-    contentContainer.innerHTML+=`
-    <div class="card">
-      <h3>${n.title}</h3>
-      <p>${n.subject} | Class ${n.class}</p>
-      <p>⬇ Downloads: ${n.downloads||0}</p>
-      <button class="preview-btn" onclick="window.open('${previewLink}')">Preview</button>
-      <button class="download-btn" onclick="downloadNote('${n.id}','${downloadLink}')">Download</button>
-    </div>`;
-  });
+const card=document.createElement("div");
+card.className="card";
+card.innerHTML=`
+<h3>${n.title}</h3>
+<p>${n.subject} | Class ${n.class}</p>
+<p>Downloads: ${n.downloads||0}</p>
+<button class="preview-btn">Preview</button>
+<button class="download-btn">Download</button>
+`;
+
+card.querySelector(".preview-btn").onclick=()=>window.open(previewLink,"_blank");
+card.querySelector(".download-btn").onclick=async()=>{
+await updateDoc(doc(db,"notes",n.id),{downloads:increment(1)});
+window.open(downloadLink,"_blank");
+};
+
+contentContainer.appendChild(card);
+});
 }
 
-window.downloadNote=async(id,link)=>{
-  await updateDoc(doc(db,"notes",id),{ downloads:increment(1) });
-  window.open(link,"_blank");
-};
-
-search.oninput=()=>{
-  const value=search.value.toLowerCase();
-  displayNotes(allNotes.filter(n=>n.title.toLowerCase().includes(value)));
-};
-
-filterSubject.onchange=()=>{
-  const value=filterSubject.value;
-  if(!value) return displayNotes(allNotes);
-  displayNotes(allNotes.filter(n=>n.subject===value));
-};
-
-/* ================= MCQ SYSTEM ================= */
+search.addEventListener("input",()=>displayNotes(allNotes.filter(n=>n.title.toLowerCase().includes(search.value.toLowerCase()))));
+filterSubject.addEventListener("change",()=>displayNotes(filterSubject.value?allNotes.filter(n=>n.subject===filterSubject.value):allNotes));
 
 async function loadMCQSubjects(){
-  contentContainer.innerHTML="Loading Subjects...";
-  mcqControls.style.display="flex";
-  mcqChapterSelect.style.display="none";
-
-  const snapshot = await getDocs(collection(db,"mcq"));
-  const subjects = new Set();
-
-  snapshot.forEach(d=>{
-    subjects.add(d.data().subject);
-  });
-
-  mcqSubjectSelect.innerHTML='<option value="">Select Subject</option>';
-  subjects.forEach(sub=>{
-    mcqSubjectSelect.innerHTML+=`<option value="${sub}">${sub}</option>`;
-  });
-
-  contentContainer.innerHTML="";
+contentContainer.innerHTML='<div class="loading">Loading Subjects...</div>';
+mcqControls.style.display="flex";
+mcqChapterSelect.style.display="none";
+const snapshot=await getDocs(collection(db,"mcq"));
+const subjects=new Set();
+snapshot.forEach(d=>subjects.add(d.data().subject));
+mcqSubjectSelect.innerHTML='<option value="">Select Subject</option>';
+subjects.forEach(s=>mcqSubjectSelect.innerHTML+=`<option>${s}</option>`);
+contentContainer.innerHTML="";
 }
 
-mcqSubjectSelect.onchange = async ()=>{
-  const selectedSubject = mcqSubjectSelect.value;
-  if(!selectedSubject) return;
+mcqSubjectSelect.addEventListener("change",async()=>{
+const subject=mcqSubjectSelect.value;
+if(!subject)return;
+contentContainer.innerHTML='<div class="loading">Loading Chapters...</div>';
+const snapshot=await getDocs(collection(db,"mcq"));
+const chapters=new Set();
+snapshot.forEach(d=>{
+const data=d.data();
+if(data.subject===subject)chapters.add(data.chapter);
+});
+mcqChapterSelect.style.display="inline-block";
+mcqChapterSelect.innerHTML='<option value="">Select Chapter</option>';
+chapters.forEach(c=>mcqChapterSelect.innerHTML+=`<option>${c}</option>`);
+contentContainer.innerHTML="";
+});
 
-  contentContainer.innerHTML="Loading Chapters...";
-
-  const snapshot = await getDocs(collection(db,"mcq"));
-  const chapters = new Set();
-
-  snapshot.forEach(d=>{
-    const data=d.data();
-    if(data.subject===selectedSubject){
-      chapters.add(data.chapter);
-    }
-  });
-
-  mcqChapterSelect.style.display="inline-block";
-  mcqChapterSelect.innerHTML='<option value="">Select Chapter</option>';
-  chapters.forEach(ch=>{
-    mcqChapterSelect.innerHTML+=`<option value="${ch}">${ch}</option>`;
-  });
-
-  contentContainer.innerHTML="";
-};
-
-mcqChapterSelect.onchange = async ()=>{
-  const subject = mcqSubjectSelect.value;
-  const chapter = mcqChapterSelect.value;
-  if(!chapter) return;
-
-  contentContainer.innerHTML="Loading MCQ...";
-
-  const snapshot = await getDocs(collection(db,"mcq"));
-  const filtered = [];
-
-  snapshot.forEach(d=>{
-    const data=d.data();
-    if(data.subject===subject && data.chapter===chapter){
-      filtered.push(data);
-    }
-  });
-
-  displayMCQ(filtered);
-};
+mcqChapterSelect.addEventListener("change",async()=>{
+const subject=mcqSubjectSelect.value;
+const chapter=mcqChapterSelect.value;
+if(!chapter)return;
+contentContainer.innerHTML='<div class="loading">Loading MCQ...</div>';
+const snapshot=await getDocs(collection(db,"mcq"));
+const filtered=[];
+snapshot.forEach(d=>{
+const data=d.data();
+if(data.subject===subject && data.chapter===chapter)filtered.push(data);
+});
+displayMCQ(filtered);
+});
 
 function displayMCQ(mcqs){
-  contentContainer.innerHTML="";
-
-  mcqs.forEach((q,index)=>{
-    contentContainer.innerHTML+=`
-    <div class="card">
-      <h3>Q${index+1}. ${q.question}</h3>
-      <p>A. ${q.optionA}</p>
-      <p>B. ${q.optionB}</p>
-      <p>C. ${q.optionC}</p>
-      <p>D. ${q.optionD}</p>
-      <p style="margin-top:10px; font-weight:bold; color:#00ffae;">
-        ✅ Correct Answer: ${q.answer}
-      </p>
-    </div>`;
-  });
+contentContainer.innerHTML="";
+mcqs.forEach((q,i)=>{
+const card=document.createElement("div");
+card.className="card";
+card.innerHTML=`
+<h3>Q${i+1}. ${q.question}</h3>
+<p>A. ${q.optionA}</p>
+<p>B. ${q.optionB}</p>
+<p>C. ${q.optionC}</p>
+<p>D. ${q.optionD}</p>
+<p><b>Correct Answer:</b> ${q.answer}</p>
+`;
+contentContainer.appendChild(card);
+});
 }
 
-/* ================= MENU SWITCH ================= */
-
 pdfBtn.onclick=()=>{
-  pdfBtn.classList.add("active");
-  mcqBtn.classList.remove("active");
-  pdfControls.style.display="flex";
-  mcqControls.style.display="none";
-  loadNotes();
+pdfBtn.classList.add("active");
+mcqBtn.classList.remove("active");
+pdfControls.style.display="flex";
+mcqControls.style.display="none";
+loadNotes();
 };
 
 mcqBtn.onclick=()=>{
-  mcqBtn.classList.add("active");
-  pdfBtn.classList.remove("active");
-  pdfControls.style.display="none";
-  mcqControls.style.display="flex";
-  loadMCQSubjects();
+mcqBtn.classList.add("active");
+pdfBtn.classList.remove("active");
+pdfControls.style.display="none";
+mcqControls.style.display="flex";
+loadMCQSubjects();
 };
 
-/* DEFAULT LOAD */
 loadNotes();
 
+/* ripple effect */
+document.addEventListener("click",e=>{
+if(e.target.tagName==="BUTTON"){
+const b=e.target;
+const circle=document.createElement("span");
+circle.style.position="absolute";
+circle.style.width="20px";
+circle.style.height="20px";
+circle.style.background="rgba(255,255,255,.6)";
+circle.style.borderRadius="50%";
+circle.style.left=e.offsetX+"px";
+circle.style.top=e.offsetY+"px";
+circle.style.transform="scale(0)";
+circle.style.animation="rip .6s linear";
+b.appendChild(circle);
+setTimeout(()=>circle.remove(),600);
+}
+});
+
+const style=document.createElement("style");
+style.innerHTML=`@keyframes rip{to{transform:scale(8);opacity:0}}`;
+document.head.appendChild(style);
 </script>
 </body>
 </html>
