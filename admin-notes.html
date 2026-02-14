@@ -8,7 +8,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-  font-family:'Segoe UI',sans-serif;
+  font-family:'Segoe UI',sans-serif;  
   background:linear-gradient(135deg,#4facfe,#00f2fe);
 }
 
@@ -45,13 +45,20 @@ button{
 }
 
 /* DASHBOARD */
-#adminPanel{display:flex;min-height:100vh;}
+#adminPanel {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  flex-wrap: wrap;
+}
 
-.sidebar{
-  width:220px;
-  background:#1e293b;
-  color:white;
-  padding:20px;
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: #1e293b;
+  color: white;
+  padding: 20px;
+  flex-shrink: 0;
 }
 
 .sidebar li{
@@ -64,10 +71,12 @@ button{
 
 .sidebar li:hover{background:#334155;}
 
+/* Main content */
 .mainContent{
-  flex:1;
+  flex: 1;
   padding:25px;
   background:#f1f5f9;
+  min-width: 300px;
 }
 
 .card{
@@ -93,6 +102,40 @@ button{
   padding:5px 10px;
   margin-left:5px;
   font-size:13px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #adminPanel {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 10px;
+  }
+
+  .sidebar h2 {
+    flex: 1 0 auto;
+    font-size: 18px;
+  }
+
+  .sidebar li {
+    flex: 0 0 auto;
+    margin-right: 10px;
+  }
+
+  .mainContent {
+    padding: 15px;
+  }
+
+  #loginSection {
+    width: 90%;
+    padding: 25px;
+  }
 }
 </style>
 </head>
@@ -210,17 +253,24 @@ setPersistence(auth, browserSessionPersistence);
 
 let editId = null;
 
-// LOGIN
-loginBtn.onclick = () =>
-  signInWithEmailAndPassword(auth,email.value,password.value);
+// ================== ADMIN LOGIN ==================
+loginBtn.onclick = () => {
+  signInWithEmailAndPassword(auth, email.value, password.value)
+    .catch(err => alert(err.message));
+};
 
-onAuthStateChanged(auth,user=>{
+onAuthStateChanged(auth, user => {
   if(user){
+    if(user.email !== "edunovax2026@gmail.com"){
+      alert("Unauthorized user ❌");
+      signOut(auth);
+      return;
+    }
     loginSection.style.display="none";
     adminPanel.style.display="flex";
     loadNotes();
     loadMCQs();
-  }else{
+  } else {
     loginSection.style.display="block";
     adminPanel.style.display="none";
   }
