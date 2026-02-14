@@ -129,7 +129,6 @@ const firebaseConfig = {
   appId: "1:352189023227:web:7f93f838432329b42e815e"
 };
 
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -146,14 +145,18 @@ loginBtn.onclick = async () => {
   }
 };
 
-// 👀 Auth Check
+// 👀 Auth & Admin Check
 onAuthStateChanged(auth, user => {
-  if(user){
-    loginSection.style.display="none";
-    adminPanel.style.display="block";
-  }else{
-    loginSection.style.display="block";
-    adminPanel.style.display="none";
+  if(user && user.email === "edunovax2026@gmail.com"){
+    loginSection.style.display = "none";
+    adminPanel.style.display = "block";
+  } else {
+    loginSection.style.display = "block";
+    adminPanel.style.display = "none";
+    if(user){
+      alert("Access Denied ❌ You are not admin");
+      signOut(auth); // non-admin user লগআউট
+    }
   }
 });
 
