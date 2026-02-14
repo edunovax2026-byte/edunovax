@@ -288,9 +288,10 @@ navItems.forEach(item => {
 
     if (section === "home") loadDashboard();
     if (section === "profile") loadProfile();
-    if (section === "settings") {
-      contentArea.innerHTML = "<h2>Settings</h2><p>Coming soon...</p>";
-    }
+  if (section === "mcq") {
+  window.location.href = "mcq.html";
+}
+
 
   });
 });
@@ -308,4 +309,5 @@ document.getElementById("notesMenu")
   .addEventListener("click", () => {
     window.location.href = "notes.html";
   });
+
 
