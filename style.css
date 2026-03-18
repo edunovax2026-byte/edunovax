@@ -2,7 +2,7 @@
    1. GENERAL, HOME & NAVBAR STYLES
    ========================================= */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-html, body { overflow-x: hidden; width: 100%; } /* 🌟 Stops mobile side-scrolling 🌟 */
+html, body { overflow-x: hidden; width: 100%; } 
 body { background-color: #f8f9fa; color: #333; }
 
 .logo { display: flex; align-items: center; gap: 8px; cursor: pointer; }
@@ -204,24 +204,26 @@ textarea { resize: vertical; font-family: inherit; }
 .back-to-top { display: flex; justify-content: center; align-items: center; width: 45px; height: 45px; border-radius: 50%; background: linear-gradient(45deg, #00f2fe, #4facfe); color: #050b14; border: none; cursor: pointer; box-shadow: 0 0 15px rgba(0, 242, 254, 0.4); }
 
 /* =========================================
-   📱 MOBILE & TABLET MEDIA QUERIES
+   📱 MOBILE MEDIA QUERIES (আপনার অরিজিনাল কোড + পপআপ ফিক্স)
    ========================================= */
 @media screen and (max-width: 768px) {
-    /* Full-Screen Mobile Modal for Reader */
-    .popup-overlay { padding: 0; background: #ffffff; }
-    .popup-content { padding: 0; width: 100vw; max-width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; border: none; background: #ffffff; overflow-y: auto; }
-    
-    #text-note-modal .popup-content { padding: 0; margin: 0; border-radius: 0; }
-    .a4-paper { padding: 10px; border-radius: 0; box-shadow: none; min-height: 100vh; }
-    .pdf-page-border { padding: 10px; border: 1px solid #bdc3c7; }
-    
-    .close-neon-btn { position: sticky; bottom: 0; z-index: 1000; margin: 0; border-radius: 0; padding: 15px; font-size: 1.1rem; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); }
-    
-    /* Navbar Mobile Menu */
     .nav-links { position: fixed; right: 0; height: 100vh; top: 60px; background-color: rgba(5, 11, 20, 0.98); backdrop-filter: blur(10px); display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; transform: translateX(100%); transition: transform 0.4s ease-in-out; z-index: 99; padding: 0; margin: 0; }
     .nav-links li { margin: 1.5rem 0; }
     .burger { display: block; z-index: 100; position: relative; }
     .nav-active { transform: translateX(0%); }
+    
+    .footer-grid { grid-template-columns: 1fr 1fr; text-align: left; }
+    .footer-links-col h4::after, .footer-contact-col h4::after { left: 0; transform: none; }
+    .contact-info-list li { flex-direction: row; justify-content: flex-start; }
+    .social-icons { justify-content: flex-start; }
+    .footer-brand-col, .footer-bottom { text-align: left; align-items: flex-start; }
+    
+    /* 🌟 শুধুমাত্র পপ-আপ ঠিকভাবে ফিট করার কোড 🌟 */
+    .popup-overlay { padding: 10px; }
+    .popup-content { width: 100% !important; max-width: 100% !important; padding: 15px !important; margin: 0 auto !important; }
+    .note-viewer-box { height: 65vh !important; } /* ফ্রেম যেন লম্বা না হয় */
+    .note-viewer-img { max-height: 65vh !important; }
+    .note-viewer-text { max-height: 65vh !important; }
 }
 
 @media screen and (max-width: 480px) {
@@ -231,4 +233,10 @@ textarea { resize: vertical; font-family: inherit; }
     
     .logo-text { font-size: 1.4rem; }
     .hero-content h1 { font-size: 2.2rem; }
+    
+    .footer-grid { grid-template-columns: 1fr; text-align: center; }
+    .footer-links-col h4::after, .footer-contact-col h4::after { left: 50%; transform: translateX(-50%); }
+    .contact-info-list li { flex-direction: column; justify-content: center; text-align: center; }
+    .social-icons { justify-content: center; }
+    .footer-brand-col, .footer-bottom { text-align: center; align-items: center; }
 }
