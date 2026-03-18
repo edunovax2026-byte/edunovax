@@ -544,11 +544,13 @@ async function openNotesList(subject, semester) {
 if (backBtn) { backBtn.addEventListener('click', () => { notesListView.style.display = 'none'; subjectsView.style.display = 'block'; }); }
 if (closeTextModalBtn) { closeTextModalBtn.addEventListener('click', () => { textNoteModal.style.display = 'none'; }); }
 
-// 🌟 IMPORTANT: RESTORED LOGIN CHECK FOR SECURITY 🌟
+// 🌟 IMPORTANT: LOGIN CHECK ONLY FOR STUDENT NOTES PAGE 🌟
 onAuthStateChanged(auth, (user) => {
-    const isNotesPage = window.location.pathname.includes('notes.html') || window.location.pathname.includes('admin.html');
+    // এখানে admin.html বাদ দেওয়া হয়েছে, তাই অ্যাডমিন প্যানেলে যেতে কোনো বাধা থাকবে না!
+    const isNotesPage = window.location.pathname.includes('notes.html');
+    
     if (user && user.emailVerified) {
-        if (isNotesPage && window.location.pathname.includes('notes.html')) {
+        if (isNotesPage) {
             initializeNotesSystem();
             const popup = document.getElementById('welcome-popup');
             if(popup) {
@@ -558,7 +560,6 @@ onAuthStateChanged(auth, (user) => {
             }
         }
     } else {
-        // If not logged in, redirect to login page
         if (isNotesPage) window.location.href = 'login.html';
     }
 });  
