@@ -25,6 +25,16 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// 🌟 ANTI-COPY & RIGHT-CLICK PROTECTION 🌟
+document.addEventListener('contextmenu', event => event.preventDefault());
+document.onkeydown = function(e) {
+    if(e.keyCode == 123) { return false; } // Prevent F12
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Prevent Ctrl+Shift+I
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Prevent Ctrl+Shift+C
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Prevent Ctrl+Shift+J
+    if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Prevent Ctrl+U
+};
+
 // --- Notification Function ---
 function showNotification(message, type = 'info') {
     let toast = document.getElementById('custom-toast');
@@ -170,6 +180,8 @@ if (adminForm) {
     const noteTypeSelect = document.getElementById('note-type');
     const linkInputDiv = document.getElementById('link-input-div');
     const textInputDiv = document.getElementById('text-input-div');
+    const imageInputDiv = document.getElementById('image-input-div'); 
+    
     const uploadBtn = document.getElementById('upload-btn');
     const cancelEditBtn = document.getElementById('cancel-edit-btn');
     const formTitle = document.getElementById('admin-form-title');
@@ -199,9 +211,17 @@ if (adminForm) {
 
     noteTypeSelect.addEventListener('change', function() {
         if (this.value === 'link') {
-            linkInputDiv.style.display = 'block'; textInputDiv.style.display = 'none';
-        } else {
-            linkInputDiv.style.display = 'none'; textInputDiv.style.display = 'block';
+            linkInputDiv.style.display = 'block'; 
+            textInputDiv.style.display = 'none'; 
+            if(imageInputDiv) imageInputDiv.style.display = 'none';
+        } else if (this.value === 'text') {
+            linkInputDiv.style.display = 'none'; 
+            textInputDiv.style.display = 'block'; 
+            if(imageInputDiv) imageInputDiv.style.display = 'none';
+        } else if (this.value === 'image') {
+            linkInputDiv.style.display = 'none'; 
+            textInputDiv.style.display = 'none'; 
+            if(imageInputDiv) imageInputDiv.style.display = 'block';
         }
     });
 
@@ -234,7 +254,7 @@ if (adminForm) {
                         <div class="admin-actions">
                             <button class="action-btn btn-edit" onclick="editAdminNote('${noteId}', '${note.subject}', '${note.semester}', '${safeTitle}', '${note.type}', '${safeContent}')">✏️ Edit</button>
                             <button class="action-btn btn-del" onclick="deleteAdminNote('${noteId}')">🗑️ Delete</button>
-                            ${note.type === 'text' ? `<button class="action-btn btn-down" onclick="downloadAdminNote('${safeTitle}', '${safeContent}')">📥 Download</button>` : ''}
+                            ${(note.type === 'text' || note.type === 'image') ? `<button class="action-btn btn-down" onclick="downloadAdminNote('${safeTitle}', '${safeContent}', '${note.type}')">📥 Download</button>` : ''}
                         </div>
                     </div>
                 `;
@@ -244,8 +264,8 @@ if (adminForm) {
             adminNotesList.innerHTML = cardsHTML;
 
         } catch (error) {
-            console.error(error);
-            adminNotesList.innerHTML = '<p class="error-text" style="text-align:center;">Failed to connect to the database.</p>';
+            console.error("Load Notes Error:", error);
+            adminNotesList.innerHTML = '<p class="error-text" style="text-align:center;">Failed to connect to the database. ' + error.message + '</p>';
         }
     }
 
@@ -258,7 +278,8 @@ if (adminForm) {
                 showNotification("Note deleted successfully!", "success");
                 loadAdminNotes(); 
             } catch (error) {
-                showNotification("Error deleting note.", "error");
+                console.error("Delete Note Error:", error);
+                showNotification("Error deleting note: " + error.message, "error");
             }
         }
     };
@@ -278,16 +299,19 @@ if (adminForm) {
         
         if(type === 'link') {
             document.getElementById('note-link').value = content;
-            linkInputDiv.style.display = 'block'; textInputDiv.style.display = 'none';
-        } else {
+            linkInputDiv.style.display = 'block'; textInputDiv.style.display = 'none'; if(imageInputDiv) imageInputDiv.style.display = 'none';
+        } else if (type === 'text') {
             document.getElementById('note-text').value = content;
-            linkInputDiv.style.display = 'none'; textInputDiv.style.display = 'block';
+            linkInputDiv.style.display = 'none'; textInputDiv.style.display = 'block'; if(imageInputDiv) imageInputDiv.style.display = 'none';
+        } else if (type === 'image') {
+            if(document.getElementById('note-image')) document.getElementById('note-image').value = content;
+            linkInputDiv.style.display = 'none'; textInputDiv.style.display = 'none'; if(imageInputDiv) imageInputDiv.style.display = 'block';
         }
         
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    window.downloadAdminNote = function(title, content) {
+    window.downloadAdminNote = function(title, content, type = 'text') {
         showNotification("Preparing high-quality document... Please wait.", "info");
         const rawTitle = title.replace(/\\'/g, "'").replace(/&quot;/g, '"');
         const rawContent = content.replace(/\\'/g, "'").replace(/&quot;/g, '"').replace(/\\n/g, "<br>");
@@ -306,6 +330,13 @@ if (adminForm) {
         document.body.appendChild(iframe);
 
         const iframeDoc = iframe.contentWindow.document;
+
+        let bodyHtml = '';
+        if (type === 'image') {
+            bodyHtml = `<div style="text-align: center;"><img src="${rawContent}" style="max-width: 100%; max-height: 800px; object-fit: contain; border-radius: 8px;" alt="Study Material Image"></div>`;
+        } else {
+            bodyHtml = rawContent;
+        }
 
         const printHTML = `
             <!DOCTYPE html>
@@ -368,7 +399,8 @@ if (adminForm) {
                         </div>
                     </div>
                     <div class="title">${rawTitle}</div>
-                    <div class="body-text">${rawContent}</div>
+                    
+                    <div class="body-text">${bodyHtml}</div>
                     
                     <div class="pdf-disclaimer">
                         <strong>Disclaimer:</strong> These study materials are curated for supplementary learning and reference purposes only. EduNovaX does not guarantee that specific questions from these notes will appear in official university or board examinations. The authorities hold no liability for any academic outcomes or grades resulting solely from the use of this content.
@@ -380,7 +412,7 @@ if (adminForm) {
         iframeDoc.open();
         iframeDoc.write(printHTML);
         iframeDoc.close();
-        setTimeout(() => { iframe.contentWindow.focus(); iframe.contentWindow.print(); }, 1500); 
+        setTimeout(() => { iframe.contentWindow.focus(); iframe.contentWindow.print(); }, 2000); 
     };
 
     cancelEditBtn.addEventListener('click', () => {
@@ -389,7 +421,7 @@ if (adminForm) {
         formTitle.innerText = "Upload New Notes";
         uploadBtn.innerText = "Upload Note";
         cancelEditBtn.style.display = "none";
-        linkInputDiv.style.display = 'block'; textInputDiv.style.display = 'none';
+        linkInputDiv.style.display = 'block'; textInputDiv.style.display = 'none'; if(imageInputDiv) imageInputDiv.style.display = 'none';
     });
 
     adminForm.addEventListener('submit', async function(e) {
@@ -401,14 +433,22 @@ if (adminForm) {
         const semester = document.getElementById('note-semester').value;
         const title = document.getElementById('note-title').value;
         const type = document.getElementById('note-type').value;
+        
         const link = document.getElementById('note-link').value;
         const text = document.getElementById('note-text').value;
+        const image = document.getElementById('note-image') ? document.getElementById('note-image').value : '';
 
         if (type === 'link' && link.trim() === '') { showNotification("Enter Google Drive link.", "error"); uploadBtn.innerText = noteId ? "Update Note" : "Upload Note"; uploadBtn.disabled = false; return; }
         if (type === 'text' && text.trim() === '') { showNotification("Paste some text.", "error"); uploadBtn.innerText = noteId ? "Update Note" : "Upload Note"; uploadBtn.disabled = false; return; }
+        if (type === 'image' && image.trim() === '') { showNotification("Enter Image URL.", "error"); uploadBtn.innerText = noteId ? "Update Note" : "Upload Note"; uploadBtn.disabled = false; return; }
+
+        let contentToSave = '';
+        if(type === 'link') contentToSave = link;
+        else if(type === 'text') contentToSave = text;
+        else if(type === 'image') contentToSave = image;
 
         try {
-            const dataToSave = { subject: subject, semester: semester, title: title, type: type, content: type === 'link' ? link : text, timestamp: new Date() };
+            const dataToSave = { subject: subject, semester: semester, title: title, type: type, content: contentToSave, timestamp: new Date() };
 
             if (noteId) {
                 await updateDoc(doc(db, "notes", noteId), dataToSave);
@@ -417,12 +457,16 @@ if (adminForm) {
                 await addDoc(collection(db, "notes"), dataToSave);
                 showNotification("New Module Uploaded Successfully!", "success");
             }
+            
             cancelEditBtn.click(); 
             if(tabManage && tabManage.classList.contains('active')) loadAdminNotes(); 
+            
         } catch (error) { 
             console.error("Upload Error Details:", error);
             showNotification("Data Error: " + error.message, "error"); 
         }
+        
+        uploadBtn.innerText = "Upload Note";
         uploadBtn.disabled = false;
     });
 }
@@ -517,21 +561,49 @@ async function openNotesList(subject, semester) {
             title.innerText = note.title;
             card.appendChild(title);
             
+            // 🌟 UPDATED: FIXED HEIGHT AND SIDE WIDTH TO MATCH A4 CONTAINER 🌟
             if (note.type === 'link') {
-                const linkBtn = document.createElement('a');
-                linkBtn.href = note.content;
-                linkBtn.target = '_blank';
-                linkBtn.className = 'neon-btn';
-                linkBtn.innerText = 'Access Document';
-                card.appendChild(linkBtn);
-            } else if (note.type === 'text') {
                 const readBtn = document.createElement('button');
                 readBtn.className = 'neon-btn';
-                readBtn.innerText = 'Read Note';
+                readBtn.innerText = 'View Document';
                 
                 readBtn.onclick = () => {
                     document.getElementById('text-note-title').innerText = note.title;
-                    document.getElementById('text-note-body').innerText = note.content;
+                    
+                    let driveLink = note.content;
+                    driveLink = driveLink.replace(/\/view.*/, '/preview');
+                    
+                    // 🛡️ Fixed Height: 85vh to make it taller, width: 100% to perfectly match the A4 container 🛡️
+                    document.getElementById('text-note-body').innerHTML = `
+                        <div style="position: relative; width: 100%; height: 85vh; border-radius: 5px; overflow: hidden; background: #fff; margin-top: 15px; border: 1px solid #bdc3c7;">
+                            <iframe src="${driveLink}" width="100%" height="100%" style="border: none; position: relative; z-index: 1;"></iframe>
+                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 60px; background: transparent; z-index: 999; cursor: default;" title="Protected Document"></div>
+                        </div>
+                    `;
+                    textNoteModal.style.display = 'flex';
+                };
+                card.appendChild(readBtn);
+
+            } else if (note.type === 'text' || note.type === 'image') {
+                const readBtn = document.createElement('button');
+                readBtn.className = 'neon-btn';
+                readBtn.innerText = note.type === 'image' ? 'View Image Note' : 'Read Note';
+                
+                readBtn.onclick = () => {
+                    document.getElementById('text-note-title').innerText = note.title;
+                    if(note.type === 'image') {
+                        // Image fit container naturally
+                        document.getElementById('text-note-body').innerHTML = `
+                            <div style="text-align: center; user-select: none; pointer-events: none; margin-top: 15px; width: 100%;">
+                                <img src="${note.content}" style="max-width: 100%; height: auto; max-height: 85vh; border-radius: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" alt="Note Image">
+                            </div>`;
+                    } else {
+                        // Text fit container naturally
+                        document.getElementById('text-note-body').innerHTML = `
+                            <div style="text-align: left; width: 100%; color: #333; margin-top: 15px; line-height: 1.8;">
+                                ${note.content.replace(/\n/g, '<br>')}
+                            </div>`;
+                    }
                     textNoteModal.style.display = 'flex';
                 };
                 card.appendChild(readBtn);
@@ -546,7 +618,6 @@ if (closeTextModalBtn) { closeTextModalBtn.addEventListener('click', () => { tex
 
 // 🌟 IMPORTANT: LOGIN CHECK ONLY FOR STUDENT NOTES PAGE 🌟
 onAuthStateChanged(auth, (user) => {
-    // এখানে admin.html বাদ দেওয়া হয়েছে, তাই অ্যাডমিন প্যানেলে যেতে কোনো বাধা থাকবে না!
     const isNotesPage = window.location.pathname.includes('notes.html');
     
     if (user && user.emailVerified) {
