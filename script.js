@@ -561,7 +561,7 @@ async function openNotesList(subject, semester) {
             title.innerText = note.title;
             card.appendChild(title);
             
-            // 🌟 UPDATED: FIXED HEIGHT AND SIDE WIDTH TO MATCH A4 CONTAINER 🌟
+            // 🌟 FIXED RESPONSIVE MODAL HEIGHT/WIDTH 🌟
             if (note.type === 'link') {
                 const readBtn = document.createElement('button');
                 readBtn.className = 'neon-btn';
@@ -573,9 +573,9 @@ async function openNotesList(subject, semester) {
                     let driveLink = note.content;
                     driveLink = driveLink.replace(/\/view.*/, '/preview');
                     
-                    // 🛡️ Fixed Height: 85vh to make it taller, width: 100% to perfectly match the A4 container 🛡️
+                    // Fixed width and height that respect the container boundaries 
                     document.getElementById('text-note-body').innerHTML = `
-                        <div style="position: relative; width: 100%; height: 85vh; border-radius: 5px; overflow: hidden; background: #fff; margin-top: 15px; border: 1px solid #bdc3c7;">
+                        <div style="position: relative; width: 100%; height: 75vh; border-radius: 5px; overflow: hidden; background: #fff; margin-top: 15px; border: 1px solid #bdc3c7;">
                             <iframe src="${driveLink}" width="100%" height="100%" style="border: none; position: relative; z-index: 1;"></iframe>
                             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 60px; background: transparent; z-index: 999; cursor: default;" title="Protected Document"></div>
                         </div>
@@ -592,13 +592,11 @@ async function openNotesList(subject, semester) {
                 readBtn.onclick = () => {
                     document.getElementById('text-note-title').innerText = note.title;
                     if(note.type === 'image') {
-                        // Image fit container naturally
                         document.getElementById('text-note-body').innerHTML = `
                             <div style="text-align: center; user-select: none; pointer-events: none; margin-top: 15px; width: 100%;">
-                                <img src="${note.content}" style="max-width: 100%; height: auto; max-height: 85vh; border-radius: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" alt="Note Image">
+                                <img src="${note.content}" style="max-width: 100%; height: auto; max-height: 75vh; border-radius: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" alt="Note Image">
                             </div>`;
                     } else {
-                        // Text fit container naturally
                         document.getElementById('text-note-body').innerHTML = `
                             <div style="text-align: left; width: 100%; color: #333; margin-top: 15px; line-height: 1.8;">
                                 ${note.content.replace(/\n/g, '<br>')}
