@@ -287,7 +287,6 @@ if (adminForm) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // 🌟 UPDATED WITH DISCLAIMER 🌟
     window.downloadAdminNote = function(title, content) {
         showNotification("Preparing high-quality document... Please wait.", "info");
         const rawTitle = title.replace(/\\'/g, "'").replace(/&quot;/g, '"');
@@ -319,7 +318,7 @@ if (adminForm) {
                     @page { size: A4; margin: 15mm; }
                     body { margin: 0; padding: 0; font-family: 'Noto Serif Bengali', 'Segoe UI', sans-serif; background: #ffffff; color: #000000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
                     .page-border { position: fixed; top: 0; left: 0; right: 0; bottom: 0; border: 3px double #2c3e50; pointer-events: none; z-index: 9999; }
-                    .content-area { padding: 10mm 12mm; }
+                    .content-area { padding: 10mm 12mm; position: relative; z-index: 10; }
                     .header { position: relative; display: flex; justify-content: center; align-items: center; border-bottom: 2px solid #2c3e50; padding-bottom: 15px; margin-bottom: 25px; min-height: 80px; }
                     .header-brand { text-align: center; }
                     .header-brand h1 { margin: 0; font-size: 26pt; color: #2c3e50; font-family: 'Segoe UI', sans-serif; font-weight: bold; letter-spacing: 1px; }
@@ -334,10 +333,29 @@ if (adminForm) {
                     p, div { orphans: 3; widows: 3; }
                     .pdf-disclaimer { margin-top: 40px; padding: 15px; border: 1px solid #ccc; border-left: 4px solid #e74c3c; background-color: #f8f9fa; font-size: 10pt; color: #555; text-align: justify; font-style: italic; line-height: 1.5; page-break-inside: avoid; }
                     .pdf-disclaimer strong { color: #e74c3c; font-style: normal; }
+                    
+                    .watermark-bg {
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%) rotate(-45deg);
+                        font-size: 110pt;
+                        font-family: 'Segoe UI', sans-serif;
+                        font-weight: 900;
+                        color: rgba(0, 0, 0, 0.04);
+                        z-index: 1;
+                        pointer-events: none;
+                        white-space: nowrap;
+                        text-transform: uppercase;
+                        letter-spacing: 8px;
+                    }
                 </style>
             </head>
             <body>
                 <div class="page-border"></div>
+                
+                <div class="watermark-bg">EduNovaX</div>
+
                 <div class="content-area">
                     <div class="header">
                         <div class="header-brand">
@@ -402,8 +420,8 @@ if (adminForm) {
             cancelEditBtn.click(); 
             if(tabManage && tabManage.classList.contains('active')) loadAdminNotes(); 
         } catch (error) { 
-            console.error(error);
-            showNotification("Data Corruption: Error saving note.", "error"); 
+            console.error("Upload Error Details:", error);
+            showNotification("Data Error: " + error.message, "error"); 
         }
         uploadBtn.disabled = false;
     });
@@ -526,10 +544,11 @@ async function openNotesList(subject, semester) {
 if (backBtn) { backBtn.addEventListener('click', () => { notesListView.style.display = 'none'; subjectsView.style.display = 'block'; }); }
 if (closeTextModalBtn) { closeTextModalBtn.addEventListener('click', () => { textNoteModal.style.display = 'none'; }); }
 
+// 🌟 IMPORTANT: RESTORED LOGIN CHECK FOR SECURITY 🌟
 onAuthStateChanged(auth, (user) => {
-    const isNotesPage = window.location.pathname.includes('notes.html');
+    const isNotesPage = window.location.pathname.includes('notes.html') || window.location.pathname.includes('admin.html');
     if (user && user.emailVerified) {
-        if (isNotesPage) {
+        if (isNotesPage && window.location.pathname.includes('notes.html')) {
             initializeNotesSystem();
             const popup = document.getElementById('welcome-popup');
             if(popup) {
@@ -539,6 +558,7 @@ onAuthStateChanged(auth, (user) => {
             }
         }
     } else {
+        // If not logged in, redirect to login page
         if (isNotesPage) window.location.href = 'login.html';
     }
 });  
